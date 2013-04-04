@@ -21,11 +21,29 @@ class TheAgeSpider(CrawlSpider):
 		print hxs.select("//div[@class='articleBody']/p").extract()
 
 
+
+class YahooAuNewsSpider(CrawlSpider):
+	name = "YahooAuNews"
+	allowed_domains = ['theage.com.au']
+	start_urls = ["http://au.finance.yahoo.com/news/topic-top-stories/"]
+	
+	rules = [Rule(SgmlLinkExtractor(allow=['/news/.*html;.*',]), 'parse_article', follow=True)]
+
+	def parse_article(self, response):
+		hxs = HtmlXPathSelector(response)
+		print response.url
+		print hxs.select("//div[@class='bd']/p").extract()
+
+
 class TheAge_Spider(BaseSpider):
 	name = "basic_theage"
-	allowed_domains = ['theage.com.au']
-	start_urls = ["http://www.theage.com.au/business"]
+	allowed_domains = ['au.finance.yahoo.com']
+	start_urls = ["http://au.finance.yahoo.com/news/topic-top-stories/"]
 	
 	def parse(self,response):
 		print response.url
-		print response.body	
+		with open("out.html","w") as f:
+			f.write(response.body)
+
+
+
