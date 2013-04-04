@@ -33,4 +33,5 @@ class TheAge_Spider(BaseSpider):
 		browser = webdriver.Remote("http://localhost:4445",{}) 
 		browser.get(response.url)
 		browser.get_screenshot_as_file("dump.png")
-		print browser.page_source
+		hxs = HtmlXPathSelector(text=browser.page_source)
+		print hxs.select("//a/text()").extract()
