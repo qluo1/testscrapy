@@ -3,7 +3,10 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 import time
 
-browser = webdriver.Remote("http://localhost:4444",{}) # Get local session of firefox
+
+#browser = webdriver.Remote("http://localhost:4444",{}) # Get local session of firefox
+#browser = webdriver.PhantomJS(executable_path='phantomjs', port=4444, desired_capabilities={'platform': 'ANY', 'browserName': 'phantomjs', 'version': '', 'javascriptEnabled': True})
+browser = webdriver.Firefox()
 browser.get("http://www.google.com") # Load page
 assert "Google" in browser.title
 elem = browser.find_element_by_name("q") # Find the query box
