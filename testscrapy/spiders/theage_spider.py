@@ -7,6 +7,8 @@ from datetime import datetime as dt, timedelta
 
 from scrapy import log
 
+from selenium import webdriver
+
 class TheAgeSpider(CrawlSpider):
 	name = 'theage'
 	allowed_domains = ['theage.com.au']
@@ -23,9 +25,12 @@ class TheAgeSpider(CrawlSpider):
 
 class TheAge_Spider(BaseSpider):
 	name = "basic_theage"
-	allowed_domains = ['theage.com.au']
-	start_urls = ["http://www.theage.com.au/business"]
+	allowed_domains = ['au.finance.yahoo.com']
+	start_urls = ["http://au.finance.yahoo.com/news/topic-top-stories/"]
 	
 	def parse(self,response):
 		print response.url
-		print response.body	
+		browser = webdriver.Remote("http://localhost:4445",{}) 
+		browser.get(response.url)
+		browser.get_screenshot_as_file("dump.png")
+		print browser.page_source
