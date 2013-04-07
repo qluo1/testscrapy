@@ -8,9 +8,9 @@ from pymongo import ASCENDING, DESCENDING
 def list():
     ret = ""
 
-    for i in client.scrapy.items.find():
+    for i in client.scrapy.items.find().sort([('timestamp',DESCENDING)]):
     	item = i.items()
-    	ret += "<p>%s, %s </p>" % (item[0][1],item[1][1])
+    	ret += "<p>%s, %s, %s </p>" % (item[0][1],item[1][1],item[2][1])
     return ret
 
 if __name__ == "__main__":
