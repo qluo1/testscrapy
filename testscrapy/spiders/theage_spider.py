@@ -3,7 +3,7 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.selector import HtmlXPathSelector
 from datetime import datetime as dt, timedelta
-
+from dateutil import parser
 from scrapy import log
 
 from selenium import webdriver
@@ -35,12 +35,12 @@ class YahooFinSpider(BaseSpider):
 	p = re.compile("/news/.*\.html")
 	def parse(self,response):
 		print response.url
-		browser = webdriver.Remote("http://localhost:4445",{}) 
-		# browser = webdriver.Firefox() 
+		# browser = webdriver.Remote("http://localhost:4445",{}) 
+		browser = webdriver.Firefox() 
 		browser.get(response.url)
-		# for i in range(0,5):
-		# 	browser.find_element_by_xpath("//a[@class='more-link']").click()
-		# 	time.sleep(3)
+		for i in range(0,5):
+			browser.find_element_by_xpath("//a[@class='more-link']").click()
+			time.sleep(3)
 		hxs = HtmlXPathSelector(text=browser.page_source)
 		links = hxs.select("//a/@href").extract()
 		browser.close()
@@ -52,7 +52,7 @@ class YahooFinSpider(BaseSpider):
 		item = YahooNewsItem()
 		item['url'] = response.url
 		item['title'] =  hxs.select("//h1[@class='headline']/text()").extract()[0]
-		item['timestamp'] = hxs.select("//cite/abbr/@title").extract()[0]
+		item['timestamp'] = parser.parse(hxs.select("//cite/abbr/@title").extract()[0])
 		item['source'] = hxs.select("//span[@class='provider org']/text()").extract()[0]
 		item['content'] = hxs.select("//div[@id='mediaarticlebody']").extract()[0]
 		return item
