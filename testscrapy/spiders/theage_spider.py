@@ -1,10 +1,9 @@
-
 from scrapy.spider import BaseSpider
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.selector import HtmlXPathSelector
 from datetime import datetime as dt, timedelta
-
+from dateutil import parser
 from scrapy import log
 
 from selenium import webdriver
@@ -22,34 +21,40 @@ class TheAgeSpider(CrawlSpider):
 		print response.url
 		print hxs.select("//div[@class='articleBody']/p").extract()
 
+########### Yahoo Finance News
+import re
+import time
+from scrapy.http import Request
+from random import randint
+import codecs
+from testscrapy.items import YahooNewsItem
 
 
-class YahooAuNewsSpider(CrawlSpider):
-	name = "YahooAuNews"
-	allowed_domains = ['theage.com.au']
-	start_urls = ["http://au.finance.yahoo.com/news/topic-top-stories/"]
-	
-	rules = [Rule(SgmlLinkExtractor(allow=['/news/.*html;.*',]), 'parse_article', follow=True)]
-
-	def parse_article(self, response):
-		hxs = HtmlXPathSelector(response)
-		print response.url
-		print hxs.select("//div[@class='bd']/p").extract()
-
-
-class TheAge_Spider(BaseSpider):
-	name = "basic_debug"
+class YahooFinSpider(BaseSpider):
+	name = "yahoofin"
 	allowed_domains = ['au.finance.yahoo.com']
 	start_urls = ["http://au.finance.yahoo.com/news/topic-top-stories/"]
-	
+	p = re.compile("/news/.*\.html")
 	def parse(self,response):
 		print response.url
-		with open("out.html","w") as f:
-			f.write(response.body)
-		browser = webdriver.Remote("http://localhost:4445",{}) 
+		# browser = webdriver.Remote("http://localhost:4445",{}) 
+		browser = webdriver.Firefox() 
 		browser.get(response.url)
-		browser.get_screenshot_as_file("out2.png")
-		with open("out2.html","w") as f:
-			f.write(browser.page_source)
+		for i in range(0,5):
+			browser.find_element_by_xpath("//a[@class='more-link']").click()
+			time.sleep(3)
 		hxs = HtmlXPathSelector(text=browser.page_source)
-		print hxs.select("//a/text()").extract()
+		links = hxs.select("//a/@href").extract()
+		browser.close()
+		return [Request("http://au.finance.yahoo.com"+i,callback=self.parse_article) for i in links if self.p.search(i)]
+
+	def parse_article(self,response):
+		# print response.url
+		hxs = HtmlXPathSelector(response)
+		item = YahooNewsItem()
+		item['url'] = response.url.split(";_")[0]
+		item['title'] =  hxs.select("//h1[@class='headline']/text()").extract()[0]
+		item['timestamp'] = parser.parse(hxs.select("//cite/abbr/@title").extract()[0])
+		item['source'] = hxs.select("//span[@class='provider org']/text()").extract()[0]
+		item['content'] = hxs.select("//div[@id='mediaarticlebody']").extract()[0]
+		return item
