@@ -10,8 +10,18 @@ def list():
 
     for i in client.scrapy.items.find().sort([('timestamp',DESCENDING)]):
     	item = i.items()
-    	ret += "<p>%s, %s, %s </p>" % (item[0][1],item[1][1],item[2][1])
+    	ret += "<p> <a href='/item/%s'> %s</a> at %s </p>" % (item[1][1].split("/")[-1],item[0][1],item[2][1])
     return ret
+
+@app.route("/item/<ref>")
+def item(ref):
+    print ref
+    item = client.scrapy.items.find_one({'url':'http://au.finance.yahoo.com/news/' + ref})
+    print item
+    if item:
+        return item['content']
+    else:
+        return "not found: %s" % ref
 
 if __name__ == "__main__":
     app.run(debug=True)
