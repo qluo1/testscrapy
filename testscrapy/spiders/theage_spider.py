@@ -50,11 +50,9 @@ class YahooFinSpider(BaseSpider):
 		# print response.url
 		hxs = HtmlXPathSelector(response)
 		item = YahooNewsItem()
-		item['url'] = response.url
+		item['url'] = response.url.split(";_")[0]
 		item['title'] =  hxs.select("//h1[@class='headline']/text()").extract()[0]
 		item['timestamp'] = parser.parse(hxs.select("//cite/abbr/@title").extract()[0])
 		item['source'] = hxs.select("//span[@class='provider org']/text()").extract()[0]
 		item['content'] = hxs.select("//div[@id='mediaarticlebody']").extract()[0]
 		return item
-		# with codecs.open("%d.html" % randint(0,100),"w", encoding='utf-8') as f:
-		# 	f.write(hxs.select("//div[@id='mediaarticlebody']").extract()[0])

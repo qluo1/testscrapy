@@ -17,7 +17,7 @@ USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.02 (KHTML, like Gecko
 
 #
 LOG_FILE = "./scrapy.log"
-LOG_LEVEL = "INFO"
+LOG_LEVEL = "DEBUG"
 # mongodb pipelien
 
 ITEM_PIPELINES = [
