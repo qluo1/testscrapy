@@ -26,6 +26,8 @@ import time
 from scrapy.http import Request
 from random import randint
 import codecs
+from testscrapy.items import YahooNewsItem
+
 class YahooFinSpider(BaseSpider):
 	name = "yahoofin"
 	allowed_domains = ['au.finance.yahoo.com']
@@ -45,8 +47,14 @@ class YahooFinSpider(BaseSpider):
 		return [Request("http://au.finance.yahoo.com"+i,callback=self.parse_article) for i in links if self.p.search(i)]
 
 	def parse_article(self,response):
-		print response.url
+		# print response.url
 		hxs = HtmlXPathSelector(response)
-		print hxs.select("//h1[@class='headline']/text()")
-		with codecs.open("%d.html" % randint(0,100),"w", encoding='utf-8') as f:
-			f.write(hxs.select("//div[@id='mediaarticlebody']").extract()[0])
+		item = YahooNewsItem()
+		item['url'] = response.url
+		item['title'] =  hxs.select("//h1[@class='headline']/text()").extract()[0]
+		item['timestamp'] = hxs.select("//cite/abbr/@title").extract()[0]
+		item['source'] = hxs.select("//span[@class='provider org']/text()").extract()[0]
+		item['content'] = hxs.select("//div[@id='mediaarticlebody']").extract()[0]
+		return item
+		# with codecs.open("%d.html" % randint(0,100),"w", encoding='utf-8') as f:
+		# 	f.write(hxs.select("//div[@id='mediaarticlebody']").extract()[0])
