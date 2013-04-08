@@ -3,8 +3,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 import time
 
-
-browser = webdriver.Remote("http://localhost:9515",{}) # Get local session of firefox
+browser = webdriver.Remote("http://localhost:4444",{}) # Get local session of firefox
 #browser = webdriver.PhantomJS(executable_path='phantomjs --proxy:locahost:5000 --proxy-type=http', port=4444, desired_capabilities={'platform': 'ANY', 'browserName': 'phantomjs', 'version': '', 'javascriptEnabled': True})
 #browser = webdriver.Firefox()
 #browser = webdriver.Chrome(executable_path='chromedriver', port=9515)
@@ -21,5 +20,4 @@ try:
 except NoSuchElementException:
     assert 0, "can't find seleniumhq"
 
-
-#browser.close()
+browser.close()

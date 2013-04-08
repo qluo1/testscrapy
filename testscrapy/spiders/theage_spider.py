@@ -35,10 +35,11 @@ class YahooFinSpider(BaseSpider):
 	allowed_domains = ['au.finance.yahoo.com']
 	start_urls = ["http://au.finance.yahoo.com/news/topic-top-stories/"]
 	p = re.compile("/news/.*\.html")
+
 	def parse(self,response):
 		print response.url
-		# browser = webdriver.Remote("http://localhost:4445",{}) 
-		browser = webdriver.Firefox() 
+		browser = webdriver.Remote("http://localhost:4444",{}) 
+		#browser = webdriver.Firefox() 
 		browser.get(response.url)
 		for i in range(0,5):
 			browser.find_element_by_xpath("//a[@class='more-link']").click()
@@ -52,7 +53,7 @@ class YahooFinSpider(BaseSpider):
 		# print response.url
 		hxs = HtmlXPathSelector(response)
 		item = YahooNewsItem()
-		item['url'] = response.url.split(";_")[0]
+		item['url'] = response.url.split(";_")[0].split("/")[-1]
 		item['title'] =  hxs.select("//h1[@class='headline']/text()").extract()[0]
 		item['timestamp'] = parser.parse(hxs.select("//cite/abbr/@title").extract()[0])
 		item['source'] = hxs.select("//span[@class='provider org']/text()").extract()[0]
