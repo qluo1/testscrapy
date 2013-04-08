@@ -21,8 +21,9 @@ LOG_LEVEL = "INFO"
 # mongodb pipelien
 
 ITEM_PIPELINES = [
-  'testscrapy.pipelines.MongoDBPipeline',
   'testscrapy.pipelines.DuplicatesPipeline',
+  'testscrapy.pipelines.MongoDBPipeline',
+  'testscrapy.pipelines.WhooshIindexPipeline',
 ]
 
 MONGODB_SERVER = 'localhost'

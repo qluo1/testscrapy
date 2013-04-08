@@ -22,6 +22,14 @@ class DuplicatesPipeline(object):
             self.ids_seen.add(item['url'])
             return item
 
+from searchable.yahoofin import write_index
+class WhooshIindexPipeline(object):
+
+    def process_item(self, item, spider):
+        log.msg("write index :%s" % item, level=log.INFO)
+        write_index(item['title'],item['url'],item['content'])
+
+
 """MongoDB Pipeline for scrapy"""
 
 import pymongo
@@ -51,6 +59,10 @@ class MongoDBPipeline(object):
         if self.uniq_key is None:
             result = self.collection.insert(dict(item), safe=self.safe)
         else:
+            # check duplicaiton based on url
+            # if self.collection.find({'url':self.uniq_key}).count() > 0:
+            #     raise DropItem("Duplicate item found: %s" % item)
+
             result = self.collection.update(
                             {self.uniq_key: item[self.uniq_key]},
                             dict(item),
