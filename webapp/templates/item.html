@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+  <div id="news_panel" class="container-fluid">
+  	<h2> {{ item['title']}} </h2>
+  	<p> {{ item['timestamp']}} ,  {{item['source']}}</p>
+  	<div> {{ item['content']|safe}} </div>
+  </div>
+
+ <div id="test_comp"> <p> test </p> </div> 
+
+{% endblock%} 
+
+{% block js%}
+<script type="text/javascript">
+
+require(['testapp/testcomp'],
+
+	function(comp) {
+
+		comp.attachTo("#test_comp",{});
+	}
+
+	);
+
+</script>
+{% endblock %}

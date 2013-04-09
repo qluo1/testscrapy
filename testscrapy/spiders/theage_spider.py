@@ -38,8 +38,8 @@ class YahooFinSpider(BaseSpider):
 
 	def parse(self,response):
 		print response.url
-		#browser = webdriver.Remote("http://localhost:4444",{}) 
-		browser = webdriver.Firefox() 
+		browser = webdriver.Remote("http://localhost:4444",{}) 
+		#browser = webdriver.Firefox() 
 		browser.get(response.url)
 		for i in range(0,3):
 			browser.find_element_by_xpath("//a[@class='more-link']").click()

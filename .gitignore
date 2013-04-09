@@ -2,4 +2,5 @@
 *.pot
 *.pyc
 local_settings.py
+webapp/static/components
 searchable/indexdir

@@ -13,10 +13,14 @@ from datetime import datetime as dt, timedelta
 # url
 @app.route("/")
 def home():
+<<<<<<< HEAD
     one_days = dt.now() - timedelta(days = 0)
     two_days = dt.now() - timedelta(days = 20)
+=======
+    three_days = dt.now() - timedelta(days = 2)
+>>>>>>> 16f570fff17437a80f41e83f6f0f9a02aa74ecf7
     ret = ''
-    for i in client.scrapy.items.find({'timestamp':{"$gt": two_days, '$lt': one_days}}).sort([('timestamp',DESCENDING)]):
+    for i in client.scrapy.items.find({'timestamp':{"$gt": three_days}}).sort([('timestamp',DESCENDING)]):
     	item = i.items()
     	ret += "<p> <a href='/item/%s'> %s</a> at %s </p>" % (item[1][1].split("/")[-1],item[0][1],item[2][1])
     return ret
@@ -51,4 +55,4 @@ def get(ref):
     abort(404)
 
 if __name__ == "__main__":
-    app.run(debug=True,port=9009)
+    app.run(debug=True,port=9003)
