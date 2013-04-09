@@ -22,13 +22,6 @@ class DuplicatesPipeline(object):
             self.ids_seen.add(item['url'])
             return item
 
-from searchable.yahoofin import write_index
-class WhooshIindexPipeline(object):
-
-    def process_item(self, item, spider):
-        log.msg("write index :%s" % item, level=log.INFO)
-        write_index(item['title'],item['url'],item['content'])
-
 
 """MongoDB Pipeline for scrapy"""
 
@@ -48,7 +41,7 @@ class MongoDBPipeline(object):
         self.itemid = settings.get('MONGODB_ITEM_ID_FIELD',
             MONGODB_ITEM_ID_FIELD)
         self.safe = settings.get('MONGODB_SAFE', MONGODB_SAFE)
-
+        self.replace = settings.get('REPLACE_ITEM', MONGODB_SAFE)
         if isinstance(self.uniq_key, basestring) and self.uniq_key == "":
             self.uniq_key = None
             
@@ -60,8 +53,8 @@ class MongoDBPipeline(object):
             result = self.collection.insert(dict(item), safe=self.safe)
         else:
             # check duplicaiton based on url
-            # if self.collection.find({'url':self.uniq_key}).count() > 0:
-            #     raise DropItem("Duplicate item found: %s" % item)
+            if not self.replace and self.collection.find({'url':self.uniq_key}).count() > 0 :
+                raise DropItem("Duplicate item found: %s" % item)
 
             result = self.collection.update(
                             {self.uniq_key: item[self.uniq_key]},
@@ -77,3 +70,12 @@ class MongoDBPipeline(object):
                     settings['MONGODB_COLLECTION']),
                     level=log.INFO, spider=spider)
         return item
+
+### 
+from searchable.yahoofin import write_index
+
+class WhooshIindexPipeline(object):
+
+    def process_item(self, item, spider):
+        log.msg("write index :%s" % item, level=log.DEBUG)
+        write_index(item['title'],item['url'],item['content'],item['timestamp'])
