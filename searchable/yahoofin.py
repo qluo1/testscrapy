@@ -9,7 +9,7 @@ schema = Schema(title=TEXT(stored=True), url=ID(stored=True), date=DATETIME, con
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
-def write_index(title,url,content):
+def write_index(title,url,content,date):
     """ """
     if not os.path.exists(os.path.join(ROOT,"indexdir")):
         os.mkdir(os.path.join(ROOT,"indexdir"))

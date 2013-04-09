@@ -13,12 +13,7 @@ from datetime import datetime as dt, timedelta
 # url
 @app.route("/")
 def home():
-<<<<<<< HEAD
-    one_days = dt.now() - timedelta(days = 0)
-    two_days = dt.now() - timedelta(days = 20)
-=======
     three_days = dt.now() - timedelta(days = 2)
->>>>>>> 16f570fff17437a80f41e83f6f0f9a02aa74ecf7
     ret = ''
     for i in client.scrapy.items.find({'timestamp':{"$gt": three_days}}).sort([('timestamp',DESCENDING)]):
     	item = i.items()
