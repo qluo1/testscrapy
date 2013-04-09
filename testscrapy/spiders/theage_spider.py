@@ -38,7 +38,7 @@ class YahooFinSpider(BaseSpider):
 
 	def parse(self,response):
 		print response.url
-		browser = webdriver.Remote("http://localhost:4444",{}) 
+		browser = webdriver.Remote("http://localhost:4445",{}) 
 		#browser = webdriver.Firefox() 
 		browser.get(response.url)
 		for i in range(0,5):
