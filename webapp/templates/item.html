@@ -6,4 +6,21 @@
   	<div> {{ item['content']|safe}} </div>
   </div>
 
-{% endblock%}    
+ <div id="test_comp"> <p> test </p> </div> 
+
+{% endblock%} 
+
+{% block js%}
+<script type="text/javascript">
+
+require(['testapp/testcomp'],
+
+	function(comp) {
+
+		comp.attachTo("#test_comp",{});
+	}
+
+	);
+
+</script>
+{% endblock %}
