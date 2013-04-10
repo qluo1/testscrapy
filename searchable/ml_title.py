@@ -30,6 +30,20 @@ def gen_data_mongo():
 	dump_data_csv("train.csv",data['train'])
 	dump_data_csv("test.csv",data['test'])
 
+import re
+import string
+import nltk
+
+regex_punc = re.compile("[%s]" % re.escape(string.punctuation))
+regex_num = re.compile("[0-9]")
+def normalize_title(title):
+	title = title.replace("\n",'')
+	title = regex_punc.sub('',title)
+	title_clean = regex_num.sub('',title)
+	words = title_clean.split()
+	words_clean = [i.lower() for i in words if i.lower() not in nltk.corpus.stopwords.words('english')]
+	return words_clean
+
 def process_traning_data(fn):
 	titles = []
 	with codecs.open(fn,"r",encoding="utf-8") as f:
@@ -37,13 +51,12 @@ def process_traning_data(fn):
 			# print line
 			# print line.strip().split("|")
 			title,url,source,predict = line.strip().split("|")
-			titles.append({'title': title, 'predict': predict,'source': source})
+
+			titles.append({'title': title, 'predict': int(predict),'source': source})
 	return titles
 
 #gen_data_mongo()
 for i in process_traning_data("train_manual.data"):
-	print i
-	print i['title'], i['predict']
-	print i['title'], int(i['predict'])
+	print normalize_title(i['title']),i['predict']
 
 
