@@ -11,6 +11,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 
 def write_index(title,url,content,date):
     """ """
+    ix = None
     if not os.path.exists(os.path.join(ROOT,"indexdir")):
         os.mkdir(os.path.join(ROOT,"indexdir"))
         ix = create_in(os.path.join(ROOT,"indexdir"),schema)
