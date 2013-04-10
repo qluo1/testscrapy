@@ -5,6 +5,7 @@ from scrapy.selector import HtmlXPathSelector
 from datetime import datetime as dt, timedelta
 from dateutil import parser
 from scrapy import log
+from scrapy.conf import settings
 
 from selenium import webdriver
 
@@ -38,8 +39,11 @@ class YahooFinSpider(BaseSpider):
 
 	def parse(self,response):
 		print response.url
-		#browser = webdriver.Remote("http://localhost:4444",{}) 
-		browser = webdriver.Firefox() 
+		if settings['LOCAL_ENV'] == 'HOME'
+			browser = webdriver.Firefox() 
+		else:
+			browser = webdriver.Remote("http://localhost:4444",{}) 
+
 		browser.get(response.url)
 		for i in range(0,3):
 			browser.find_element_by_xpath("//a[@class='more-link']").click()

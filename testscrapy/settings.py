@@ -33,3 +33,5 @@ MONGODB_UNIQ_KEY = 'url'
 MONGODB_ITEM_ID_FIELD = '_id'
 MONGODB_SAFE = True
 REPLACE_ITEM = True
+
+from local_settings import *
