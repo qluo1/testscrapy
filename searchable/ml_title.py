@@ -56,7 +56,23 @@ def process_traning_data(fn):
 	return titles
 
 #gen_data_mongo()
-for i in process_traning_data("train_manual.data"):
-	print normalize_title(i['title']),i['predict']
+# for i in process_traning_data("train_manual.data"):
+# 	print normalize_title(i['title']),i['predict']
 
 
+def build_feature_lookup():
+	market = set()
+	bus = set()
+	for i in process_traning_data("train_manual.data"):
+		if i['predict'] == 1:
+			for j in (normalize_title(i['title'])):
+				market.add(j)
+		else:
+			for j in (normalize_title(i['title'])):
+				bus.add(j)
+	return market,bus
+
+
+a,b = build_feature_lookup()
+print a
+print b
