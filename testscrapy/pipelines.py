@@ -23,8 +23,17 @@ class DuplicatesPipeline(object):
             return item
 
 
-"""MongoDB Pipeline for scrapy"""
 
+# 
+
+class ClassifierPipeline(object):
+    """
+    """
+    def _init__(self):
+        
+        
+
+"""MongoDB Pipeline for scrapy"""
 import pymongo
 from scrapy.conf import settings
 from scrapy import log
