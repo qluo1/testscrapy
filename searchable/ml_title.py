@@ -86,7 +86,6 @@ def features_set( fn):
 top_words,train_set = features_set("train_manual.data")
 classifier = nltk.NaiveBayesClassifier.train(train_set)
 
-
 def predict(fn,top_words,classifier):
 	with codecs.open(fn,"r",encoding='utf-8') as f:
 		for line in f.readlines():
