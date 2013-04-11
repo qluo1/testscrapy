@@ -67,7 +67,6 @@ def process_training_data(fn):
 	print len(top_words)
 	return top_words.keys()[:30]
 
-
 def features_set( fn):
 	top_words = process_training_data(fn)
 	f_set = []
@@ -90,18 +89,17 @@ def predict(fn,top_words,classifier):
 	with codecs.open(fn,"r",encoding='utf-8') as f:
 		for line in f.readlines():
 			title,url,source,predict = line.strip().split("|")
-			content = query_content(url)
+			try:
+				content = query_content(url)
+			except TypeError:
+				continue
 			target = set(normalize_text(content))
 			features = {}
 			for w in top_words:
 				features["w_%s" % w] = (w in target)
-			print classifier.classify(features), title
+			res = classifier.classify(features)
+			if res == 0:
+				print res, title
 
 predict("test.csv",top_words,classifier)
-
-
-
-
-
-
 
