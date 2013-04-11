@@ -39,7 +39,7 @@ class YahooFinSpider(BaseSpider):
 
 	def parse(self,response):
 		print response.url
-		if settings['LOCAL_ENV'] == 'HOME'
+		if settings['LOCAL_ENV'] == 'HOME':
 			browser = webdriver.Firefox() 
 		else:
 			browser = webdriver.Remote("http://localhost:4444",{}) 
