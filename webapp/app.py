@@ -32,7 +32,7 @@ def item(ref):
 
 @app.route("/test")
 def test():
-    return render_template("index.html")
+    return render_template("home.html")
 
 @app.route("/news")
 def news():
