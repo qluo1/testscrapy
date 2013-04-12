@@ -21,6 +21,7 @@ LOG_LEVEL = "INFO"
 
 ITEM_PIPELINES = [
   'testscrapy.pipelines.DuplicatesPipeline',
+  'testscrapy.pipelines.YahooMarketNewsClassifierPipeline',
   'testscrapy.pipelines.MongoDBPipeline',
   'testscrapy.pipelines.WhooshIindexPipeline',
 ]
@@ -34,4 +35,6 @@ MONGODB_ITEM_ID_FIELD = '_id'
 MONGODB_SAFE = True
 REPLACE_ITEM = True
 
+# 
+NUM_TOP_WORDS = 30
 from local_settings import *

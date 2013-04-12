@@ -15,7 +15,7 @@ from datetime import datetime as dt, timedelta
 def home():
     three_days = dt.now() - timedelta(days = 2)
     ret = ''
-    for i in client.scrapy.items.find({'timestamp':{"$gt": three_days}}).sort([('timestamp',DESCENDING)]):
+    for i in client.scrapy.items.find({'timestamp':{"$gt": three_days}, 'yahoo_market_news': 0}).sort([('timestamp',DESCENDING)]):
     	item = i.items()
     	ret += "<p> <a href='/item/%s'> %s</a> at %s </p>" % (item[1][1].split("/")[-1],item[0][1],item[2][1])
     return ret

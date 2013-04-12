@@ -23,15 +23,21 @@ class DuplicatesPipeline(object):
             return item
 
 
-
-# 
-
-class ClassifierPipeline(object):
+#### 
+from searchable.yahooClassifier import YahooClassifier
+g_clasifier = YahooClassifier()
+class YahooMarketNewsClassifierPipeline(object):
     """
     """
-    def _init__(self):
-        
-        
+    def process_item(self, item, spider):
+        if item['source'] in ['ABC']:
+            item['yahoo_market_news'] = 0
+            return item
+        # using classifier here for other source
+        cat = g_clasifier.classify(item['content'])
+        item['yahoo_market_news'] = cat
+        log.msg("category: %s as %d" % (item['title'],cat), level=log.DEBUG)
+        return item
 
 """MongoDB Pipeline for scrapy"""
 import pymongo

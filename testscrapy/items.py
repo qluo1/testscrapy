@@ -16,3 +16,4 @@ class YahooNewsItem(Item):
 	source = Field()
 	timestamp = Field()
 	content = Field()
+	yahoo_market_news = Field()
