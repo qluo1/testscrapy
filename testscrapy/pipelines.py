@@ -23,15 +23,18 @@ class DuplicatesPipeline(object):
             return item
 
 
-
 # 
 
 class ClassifierPipeline(object):
     """
     """
     def _init__(self):
-        
-        
+        pass
+
+    def process_item(self,item,spider):
+        pass
+
+
 
 """MongoDB Pipeline for scrapy"""
 import pymongo
