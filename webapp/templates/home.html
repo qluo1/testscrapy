@@ -34,7 +34,7 @@
       function(compose, registry, advice, withLogging, debug) {
         debug.enable(true);
         compose.mixin(registry, [advice.withAdvice, withLogging]);
-        require(['testapp/uiNavbar','testapp/uiIndexContent'], 
+        require(['testapp/ui/uiNavbar','testapp/ui/uiIndexContent'], 
             function(navBarComp,indexContent) {
               navBarComp.attachTo("#top_menu",{});
               indexContent.attachTo(document, {contentSelector: "#index_panel"});

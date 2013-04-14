@@ -1,6 +1,6 @@
 define (
     ['components/flight/lib/component','components/mustache/mustache', 
-     'testapp/templates','components/underscore-amd/underscore'],
+     'testapp/template/templates','components/underscore-amd/underscore'],
 
     function(defineComponent,mustache,templates,underscore) {
         //
