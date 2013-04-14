@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 from bson import json_util
-from flask import Flask
+from flask import Flask, current_app,request
 from flask import render_template, jsonify, abort
 
 
@@ -48,6 +48,19 @@ def get(ref):
         item.pop("_id")
         return jsonify(item)
     abort(404)
+
+import json
+@app.route("/get/business")
+def get_business_index():
+    """ """
+    three_days = dt.now() - timedelta(days = 2)
+    
+    rets = []
+    for i in client.scrapy.items.find({'yahoo_market_news':0}).sort([('timestamp',DESCENDING)]):
+        rets.append(dict(title=i['title'],source=i['source'],date=i['timestamp'].isoformat(),url=i['url']))
+
+    # print rets
+    return  current_app.response_class(json.dumps(rets,indent=None if request.is_xhr else 2), mimetype='application/json')
 
 if __name__ == "__main__":
     app.run(debug=True,port=9003)
