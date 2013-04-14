@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+   <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">Yahoo News</a>
+          <div class="nav-collapse">
+            <ul class="nav" id="top_menu">
+                <li class="active" id="biz"><a href="#business">Business</a></li>
+                <li id="market"><a href="#market">Market</a></li>
+                <li class="divider-vertical"></li>
+                <li id="data"><a href="#data">Data</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div> <!--navbar -->
+{% endblock %}
+
+{% block content %}
+<p> test home </p>
+{% endblock %}
+
+{% block JS%}
+    <script>
+      require(
+        [
+          'components/flight/lib/compose',
+          'components/flight/lib/registry',
+          'components/flight/lib/advice',
+          'components/flight/lib/logger',
+          'components/flight/tools/debug/debug'
+        ],
+
+        function(compose, registry, advice, withLogging, debug) {
+          debug.enable(true);
+          compose.mixin(registry, [advice.withAdvice, withLogging]);
+          require(['testapp/boot'], function(initialize) {
+            initialize();
+          });
+        }
+      );
+    </script>
+{% endblock %}
