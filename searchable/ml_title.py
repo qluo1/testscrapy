@@ -85,8 +85,9 @@ def features_set( fn):
 top_words,train_set = features_set("train_manual.data")
 classifier = nltk.NaiveBayesClassifier.train(train_set)
 
-
+import numpy
 def predict(fn,top_words,classifier):
+	stat = []
 	with codecs.open(fn,"r",encoding='utf-8') as f:
 		for line in f.readlines():
 			title,url,source,predict = line.strip().split("|")
@@ -99,8 +100,16 @@ def predict(fn,top_words,classifier):
 			for w in top_words:
 				features["w_%s" % w] = (w in target)
 			res = classifier.classify(features)
-			if res == 0:
-				print res, title
+			# print title,predict
+			stat.append([res,int(predict)])
 
-predict("test.csv",top_words,classifier)
+	return numpy.array(stat,int)
+out = predict("test.csv",top_words,classifier)
+
+print out,sum(out[:,0]), sum(out[:,1])
+print out.shape
+print sum(out[:,0] != out[:,1]) * 1.0 / out.shape[0]
+
+
+
 

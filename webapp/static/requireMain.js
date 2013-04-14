@@ -1,3 +1,4 @@
 requirejs.config({
-    baseUrl: '/static'
+    baseUrl: '/static',
+    urlArgs: "bust=" + (new Date()).getTime()
 });

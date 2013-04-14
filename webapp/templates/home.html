@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+    <div id="top_menu" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+    <a class="brand" href="/test">Yahoo News</a>
+    <ul class="nav">
+    <li id ="biz"><a href="#biz">Business</a></li>
+    <li id="market"><a href="#market">Market</a></li>
+    <li id="data"><a href="#data">Data</a></li>
+    </ul>
+    </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+  <div id="index_panel" class="container-fluid">
+
+  </div>
+
+{% endblock%} 
+
+{% block js%}
+<script type="text/javascript">
+    require(
+      [
+        'components/flight/lib/compose',
+        'components/flight/lib/registry',
+        'components/flight/lib/advice',
+        'components/flight/lib/logger',
+        'components/flight/tools/debug/debug'
+      ],
+
+      function(compose, registry, advice, withLogging, debug) {
+        debug.enable(true);
+        compose.mixin(registry, [advice.withAdvice, withLogging]);
+        require(['testapp/uiNavbar','testapp/uiIndexContent'], 
+            function(navBarComp,indexContent) {
+              navBarComp.attachTo("#top_menu",{});
+              indexContent.attachTo(document, {contentSelector: "#index_panel"});
+
+        });
+      }
+    );
+</script>
+
+{% endblock %}

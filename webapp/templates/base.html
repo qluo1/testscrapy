@@ -7,13 +7,14 @@
     <link rel="stylesheet" href="/static/components/bootstrap.css/css/bootstrap-responsive.css">
     <style>
       body {
-        padding-top: 40px; /* 60px to make the container go all the way to the bottom of the topbar */
+        padding-top: 20px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
     </style>
 
   </head>
 
 <body>
+    {% block navbar %} {% endblock %}
 	<div id="container" class="hero-unit">{% block content %}{% endblock %}</div>
     
     <div id="footer" class="well">
@@ -23,10 +24,10 @@
     </div>
     
     <script src="/static/components/jquery/jquery.js"></script>
-    <script src="/static/components/es5-shim/es5-shim.js"></script>
-    <script src="/static/components/es5-shim/es5-sham.js"></script>
+    <!--script src="/static/components/es5-shim/es5-shim.js"></script>
+    <script src="/static/components/es5-shim/es5-sham.js"></script-->
     <script data-main="/static/requireMain" src="/static/components/requirejs/require.js"></script>
-    {%block js%}{%endblock%}
+    {%block js %}{%endblock%}
 </body>
 
 </html>
