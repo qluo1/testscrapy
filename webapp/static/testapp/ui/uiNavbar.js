@@ -21,7 +21,7 @@ define (
 				this.select('dataSelector').removeClass(this.attr.selectedClass);	
 				// highlight
 				this.select('bizSelector').addClass(this.attr.selectedClass);
-				this.trigger(document,"loadIndexData",{});
+				this.trigger("loadIndexData",{});
 
 			}
 

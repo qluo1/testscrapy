@@ -15,9 +15,14 @@ define (
             this.onDataRec = function(e,data) {
                 // render UI ??
                 // alert(data);
-                jQuery(this.attr.contentSelector).html(data.markup);
+                this.$node.html(data.markup);
             }
 
+            this.onClick = function(e,data) {
+
+                var _ref = e.target.href.split("#")
+                alert(_ref[_ref.length -1]);
+            }
             this.after('initialize',function ()
             {   
                 // default, load default content
@@ -25,6 +30,8 @@ define (
                 this.on(document,"onIndexDataReady",this.onDataRec);
 
                 this.trigger(document,"loadIndexData",{});
+
+                this.on("click",this.onClick);
             });
 
         } /* uiIndexContent */

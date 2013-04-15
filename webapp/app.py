@@ -45,7 +45,7 @@ def get(ref):
     item = client.scrapy.items.find_one({'url':ref})
     if item:
         item['timestamp'] = item['timestamp'].isoformat()
-        item.pop("_id")
+        item['id'] = str(item.pop("_id"))
         return jsonify(item)
     abort(404)
 
@@ -57,7 +57,7 @@ def get_business_index():
     
     rets = []
     for i in client.scrapy.items.find({'yahoo_market_news':0}).sort([('timestamp',DESCENDING)]):
-        rets.append(dict(title=i['title'],source=i['source'],date=i['timestamp'].isoformat(),url=i['url']))
+        rets.append(dict(title=i['title'],source=i['source'],date=i['timestamp'].isoformat(),url=i['url'],_id=str(i['_id'])))
 
     print rets
     return  current_app.response_class(json.dumps(rets,indent=None if request.is_xhr else 2), mimetype='application/json')

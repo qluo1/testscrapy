@@ -14,10 +14,8 @@
 {% endblock %}
 
 {% block content %}
-  <div id="index_panel" class="container-fluid">
-
-  </div>
-
+  <div id="index_panel" class="container-fluid"></div>
+  <div id="new_panel" class="news-box modal hide fade in"></div>
 {% endblock%} 
 
 {% block js%}
@@ -38,7 +36,8 @@
             function(navBarComp,indexContent,newsData) {
               newsData.attachTo(document,{});
               navBarComp.attachTo("#top_menu",{});
-              indexContent.attachTo(document, {contentSelector: "#index_panel"});
+              indexContent.attachTo("#index_panel", {contentSelector: "#index_panel"});
+
         });
       }
     );

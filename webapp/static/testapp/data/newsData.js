@@ -14,7 +14,7 @@ define (
                 // alert(data);
                 var temp = _.template(templates.indexItem);
                 var html = temp({items:data});
-                this.trigger("onIndexDataReady",{markup: html})
+                this.trigger(document,"onIndexDataReady",{markup: html})
             }
 
             this.onIndexData = function(e,data) {
@@ -34,7 +34,7 @@ define (
             {   
                 // default, load default content
                 //
-                this.on("loadIndexData",this.onIndexData);
+                this.on(document,"loadIndexData",this.onIndexData);
             });
 
         } /* uiIndexContent */

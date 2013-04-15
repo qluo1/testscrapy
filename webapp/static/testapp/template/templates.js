@@ -15,7 +15,7 @@ define(
         <% for(var i = 0; i < items.length; i++){ %>\
          <% var item = items[i]; %>\
             <tr>\
-                 <td> <a href="/get/<%= item.url%>"><%= item.title %></a></td>\
+                 <td> <a href="#<%= item._id%>"><%= item.title %></a></td>\
                  <td><%= item.source %></td>\
                  <td><%= item.date %></td>\
             </tr>\
