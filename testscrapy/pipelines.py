@@ -36,7 +36,7 @@ class YahooMarketNewsClassifierPipeline(object):
         # using classifier here for other source
         cat = g_clasifier.classify(item['content'])
         item['yahoo_market_news'] = cat
-        log.msg("category: %s as %d" % (item['title'],cat), level=log.DEBUG)
+        log.msg("category: %s as %d" % (item['title'],cat), level=log.INFO)
         return item
 
 """MongoDB Pipeline for scrapy"""
@@ -68,8 +68,8 @@ class MongoDBPipeline(object):
             result = self.collection.insert(dict(item), safe=self.safe)
         else:
             # check duplicaiton based on url
-            if not self.replace and self.collection.find({'url':self.uniq_key}).count() > 0 :
-                raise DropItem("Duplicate item found: %s" % item)
+            if not self.replace and self.collection.find({'url':item['url']}).count() > 0 :
+                raise DropItem("Duplicate item found: %s" % item['url'])
 
             result = self.collection.update(
                             {self.uniq_key: item[self.uniq_key]},
