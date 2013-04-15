@@ -59,7 +59,7 @@ def get_business_index():
     for i in client.scrapy.items.find({'yahoo_market_news':0}).sort([('timestamp',DESCENDING)]):
         rets.append(dict(title=i['title'],source=i['source'],date=i['timestamp'].isoformat(),url=i['url']))
 
-    # print rets
+    print rets
     return  current_app.response_class(json.dumps(rets,indent=None if request.is_xhr else 2), mimetype='application/json')
 
 if __name__ == "__main__":

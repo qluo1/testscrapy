@@ -1,48 +1,40 @@
 define (
-    ['components/flight/lib/component','components/mustache/mustache', 
-     'testapp/template/templates','components/underscore-amd/underscore'],
+    ['components/flight/lib/component','testapp/template/templates','components/underscore-amd/underscore'],
 
-    function(defineComponent,mustache,templates,underscore) {
+    function(defineComponent,templates,underscore) {
         //
-        return defineComponent(uiIndexContent);
+        return defineComponent(newsData);
 
-        function uiIndexContent() {
+        function newsData() {
 
-            this.defaultAttrs({
-                contentSelector : '#IndexContent'
-            });
+            this.defaultAttrs({ });
 
-            // this.onClick = function() {
-            //  alert("inside onClick");
-            //  var that = this
-            //  jQuery.ajax({
-            //      url: "/get/fears-holden-job-cuts-flow-053542148.html",
-            //      method: 'GET',
-            //      dataType: 'json',
-            //      success: function(data) {that.onDataRec.apply(that, data)}
-            //  });
-
-            //  this.trigger("custom_event",{key: "hello"})
-            // }
-
-            this.onDataRec = function(e,data) {
-
-                // render UI ??
-                alert(e.target);
-                var markup = mustache.render(templates.indexItem,data);
+            this.onIndexDataReady = function(data) {
+                //
+                alert(data);
                 var temp = _.template(templates.indexItem);
-                var html = temp({items:data.data});
-                jQuery(this.attr.contentSelector).html(html);
+                var html = temp({items:data});
+                this.trigger("onIndexDataReady",{markup: html})
             }
 
+            this.onIndexData = function(e,data) {
 
+                // filter  & cache
+                var that = this;
+                jQuery.ajax({
+                    url: "/get/business",
+                    method: "GET",
+                    dataType: "json",
+                    success: function(data) {that.onIndexDataReady.apply(that,[data]);}
+                    //error: function
+                });
+            }
 
             this.after('initialize',function ()
             {   
                 // default, load default content
                 //
-                this.on(document,"loadIndexData",this.onDataRec);
-
+                this.on("loadIndexData",this.onIndexData);
             });
 
         } /* uiIndexContent */

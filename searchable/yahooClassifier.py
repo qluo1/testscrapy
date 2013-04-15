@@ -46,7 +46,11 @@ class YahooClassifier(object):
 				title,url,source,predict = line.strip().split("|")
 				if int(predict) == 1:
 					content = self._query_content(url)
-					[ words.append(i) for i in normalize_text(content)]
+					if content:
+						[ words.append(i) for i in normalize_text(content)]
+					else:
+						print "top_words: missing data for %s" % url
+
 		top_words = nltk.FreqDist(words)
 		self._top_words = top_words.keys()[:settings['NUM_TOP_WORDS']]
 
@@ -56,7 +60,10 @@ class YahooClassifier(object):
 			for line in f.readlines():
 				title,url,source,predict = line.strip().split("|")
 				content = self._query_content(url)
-				f_set.append((self._ext_features(content),int(predict)))
+				if content:
+					f_set.append((self._ext_features(content),int(predict)))
+				else:
+					print "feature: missing data for %s" % url
 		# build classifier
 		self._classifier = nltk.NaiveBayesClassifier.train(f_set)
 
@@ -94,7 +101,7 @@ if __name__ == "__main__":
 			content = classifier._query_content(url)
 			if content is None:
 				continue
-			# print title,predict
+			print title,predict
 			stat.append([classifier.classify(content),int(predict)])
 
 	out = numpy.array(stat,int)
