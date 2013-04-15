@@ -14,7 +14,7 @@ define (
 
             this.onDataRec = function(e,data) {
                 // render UI ??
-                alert(data);
+                // alert(data);
                 jQuery(this.attr.contentSelector).html(data.markup);
             }
 
@@ -23,6 +23,8 @@ define (
                 // default, load default content
                 //
                 this.on(document,"onIndexDataReady",this.onDataRec);
+
+                this.trigger(document,"loadIndexData",{});
             });
 
         } /* uiIndexContent */

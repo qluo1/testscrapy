@@ -11,7 +11,7 @@ define (
 
             this.onIndexDataReady = function(data) {
                 //
-                alert(data);
+                // alert(data);
                 var temp = _.template(templates.indexItem);
                 var html = temp({items:data});
                 this.trigger("onIndexDataReady",{markup: html})
