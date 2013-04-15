@@ -19,9 +19,13 @@ define (
             }
 
             this.onClick = function(e,data) {
+                if (e.target && e.target.href) {
 
-                var _ref = e.target.href.split("#")
-                alert(_ref[_ref.length -1]);
+                    var _ref = e.target.href.split("#");
+                    alert(_ref[_ref.length -1]);
+                    this.trigger(document,"loadNewsData",{ref:_ref[_ref.length -1]});    
+                } 
+               
             }
             this.after('initialize',function ()
             {   

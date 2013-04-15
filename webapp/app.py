@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+import bson
 from bson import json_util
 from flask import Flask, current_app,request
 from flask import render_template, jsonify, abort
@@ -49,6 +50,7 @@ def get(ref):
         return jsonify(item)
     abort(404)
 
+
 import json
 @app.route("/get/business")
 def get_business_index():
@@ -61,6 +63,15 @@ def get_business_index():
 
     print rets
     return  current_app.response_class(json.dumps(rets,indent=None if request.is_xhr else 2), mimetype='application/json')
+
+@app.route("/query/<_id>")
+def get_news(_id):
+    i = client.scrapy.items.find_one({"_id": bson.ObjectId(_id)})
+    # print i
+    if i:
+        ret = dict(title=i['title'],source=i['source'],date=i['timestamp'].isoformat(),url=i['url'],content=i['content'])
+        return current_app.response_class(json.dumps(ret,indent=None if request.is_xhr else 2), mimetype='application/json')
+    abort(404)
 
 if __name__ == "__main__":
     app.run(debug=True,port=9003)
