@@ -32,7 +32,7 @@ define (['components/flight/lib/component'],
 			};
 
 			this.onEscape = function(e,data){
-				if (e && e.keycode && e.keycode === 27) this.$node.html("").hide();
+				if (e && e.keyCode && e.keyCode === 27) this.$node.html("").hide();
 			};
 
 			this.after("initialize", function() {
