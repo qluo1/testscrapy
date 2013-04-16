@@ -35,6 +35,10 @@ def item(ref):
 def test():
     return render_template("home.html")
 
+@app.route("/demo")
+def demo():
+    return render_template("index.html")
+
 @app.route("/news")
 def news():
     return render_template("news.html")
@@ -64,12 +68,16 @@ def get_business_index():
     print rets
     return  current_app.response_class(json.dumps(rets,indent=None if request.is_xhr else 2), mimetype='application/json')
 
+import cgi
+
 @app.route("/query/<_id>")
 def get_news(_id):
     i = client.scrapy.items.find_one({"_id": bson.ObjectId(_id)})
     # print i
     if i:
-        ret = dict(title=i['title'],source=i['source'],date=i['timestamp'].isoformat(),url=i['url'],content=i['content'])
+        ret = dict(title=i['title'],source=i['source'],
+                   date=i['timestamp'].isoformat(),url=i['url'],
+                   content=i['content'])
         return current_app.response_class(json.dumps(ret,indent=None if request.is_xhr else 2), mimetype='application/json')
     abort(404)
 

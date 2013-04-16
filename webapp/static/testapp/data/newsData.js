@@ -1,7 +1,11 @@
-define (
-    ['components/flight/lib/component','testapp/template/templates','components/underscore-amd/underscore'],
+/*jslint node: true */
+'use strict';
 
-    function(defineComponent,templates,underscore) {
+define (
+    ['components/flight/lib/component','testapp/template/templates',
+     'components/mustache/mustache','components/underscore-amd/underscore'],
+
+    function(defineComponent,templates,Mustache, underscore) {
         //
         return defineComponent(newsData);
 
@@ -12,15 +16,17 @@ define (
             this.onIndexDataReady = function(data) {
                 //
                 // alert(data);
-                var temp = _.template(templates.indexItem);
-                var html = temp({items:data});
-                this.trigger(document,"onIndexDataReady",{markup: html})
-            }
+                var html = Mustache.to_html(templates.indexItem, {items:data});
+                this.trigger(document,"onIndexDataReady",{markup: html});
+            };
 
             this.onNewsDataReady = function(data) {
 
-                alert(data);
-            }
+                // alert(data);
+                var html = Mustache.to_html(templates.newsItem,data);
+                this.trigger(document,"onNewsDataReady",{markup: html});
+
+            };
 
             this.onIndexData = function(e,data) {
 
@@ -33,18 +39,19 @@ define (
                     success: function(data) {that.onIndexDataReady.apply(that,[data]);}
                     //error: function
                 });
-            }
+            };
 
             this.onNewsData = function(e,data) {
 
                 var that = this;
+                alert(data.ref);
                 jQuery.ajax({
                     url: '/query/' + data.ref,
                     method: 'GET',
                     dataType :'json',
-                    success : function(data) {that.onIndexDataReady.apply(that,[data]);}
-                })
-            }
+                    success : function(data) {that.onNewsDataReady.apply(that,[data]);}
+                });
+            };
 
             this.after('initialize',function ()
             {   

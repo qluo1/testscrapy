@@ -15,7 +15,11 @@
 
 {% block content %}
   <div id="index_panel" class="container-fluid"></div>
-  <div id="new_panel" class="news-box modal hide fade in"></div>
+  <div id="new_panel" class="news-box modal hide fade in">
+    <div id="news">
+  </div>
+  <div id="thenews"/>
+  
 {% endblock%} 
 
 {% block js%}
@@ -32,11 +36,12 @@
       function(compose, registry, advice, withLogging, debug) {
         debug.enable(true);
         compose.mixin(registry, [advice.withAdvice, withLogging]);
-        require(['testapp/ui/uiNavbar','testapp/ui/uiIndexContent','testapp/data/newsData'], 
-            function(navBarComp,indexContent,newsData) {
+        require(['testapp/ui/uiNavbar','testapp/ui/uiIndexContent','testapp/ui/uiNewsContent','testapp/data/newsData'], 
+            function(navBarComp,indexContent,newsContent, newsData) {
               newsData.attachTo(document,{});
               navBarComp.attachTo("#top_menu",{});
               indexContent.attachTo("#index_panel", {contentSelector: "#index_panel"});
+              newsContent.attachTo("#new_panel",{newsSelector: "#news"});
 
         });
       }
