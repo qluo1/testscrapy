@@ -22,7 +22,8 @@ define (
                 if (e.target && e.target.href) {
 
                     var _ref = e.target.href.split("#");
-                    this.trigger(document,"loadNewsData",{ref:_ref[_ref.length -1]});    
+                    this.trigger(document,"loadNewsData",{ref:_ref[_ref.length -1]}); 
+                    jQuery(e.target).addClass("visited");   
                 } 
                
             }
