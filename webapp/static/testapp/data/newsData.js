@@ -32,24 +32,21 @@ define (
 
                 // filter  & cache
                 var that = this;
-                jQuery.ajax({
-                    url: "/get/business",
-                    method: "GET",
-                    dataType: "json",
-                    success: function(data) {that.onIndexDataReady.apply(that,[data]);}
-                    //error: function
-                });
+                var url = '/index/';
+                if (data && data.type) {
+                    url += data.type;
+                }else {
+                    url += 'business';
+                }
+                jQuery.getJSON(url, function(data) {
+                        that.onIndexDataReady.apply(that,[data]);
+                 });
             };
 
             this.onNewsData = function(e,data) {
-
                 var that = this;
-                alert(data.ref);
-                jQuery.ajax({
-                    url: '/query/' + data.ref,
-                    method: 'GET',
-                    dataType :'json',
-                    success : function(data) {that.onNewsDataReady.apply(that,[data]);}
+                jQuery.getJSON('/query/' + data.ref, function(data){
+                    that.onNewsDataReady.apply(that,[data]);
                 });
             };
 

@@ -7,7 +7,9 @@ define (['components/flight/lib/component'],
 		var newsContent = function (){
 
 			this.defaultAttrs({
-				newsSelector: '#news'
+				newsSelector: '#news',
+				btnCloseSelector: '.close',
+				btnSelector: '.btn' 
 			});
 
 			this.onNewsDataReady = function(e, data) {
@@ -16,15 +18,36 @@ define (['components/flight/lib/component'],
 				this.$node.show();
 			};
 
+			this.onClose = function(e,data) {
+				// alert(e.target);
+				if (e.target && e.target.className === 'close') this.$node.html("").hide();
+				if (e.target) {
+					var ref = e.target.href.split("#");
+					if (ref[ref.length -1] === 'close') {
+						this.$node.html("").hide();
+					}else {
+						alert(ref[ref.length -1]);
+					}
+				}
+			};
+
+			this.onEscape = function(e,data){
+				if (e && e.keycode && e.keycode === 27) this.$node.html("").hide();
+			};
+
 			this.after("initialize", function() {
 
 				this.on(document,"onNewsDataReady",this.onNewsDataReady);
-				//this.on("click", {});
+				this.on("click", {
+					btnSelector: this.onClose,
+					btnCloseSelector : this.onClose
+
+				});
+				this.on(document,"keyup",this.onEscape);
 			});
 
 		};
 		return defineComponent(newsContent);
-
 
 	});
 

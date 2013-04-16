@@ -1,5 +1,6 @@
 /*jslint node: true */
 'use strict';
+
 define(
   function() {
      var indexItem =
@@ -22,13 +23,18 @@ define(
         </tbody>\
        </table>';
 
-    var newsItem = 
-    '{{&content}}\
-      <div class="modal-footer">\
-        <button id="send_composed" disabled="disabled" class="btn btn-primary">Send</button>\
-        <button id="cancel_composed" class="btn">Cancel</button>\
-      </div>'
-    ;
+    var newsItem =
+    '<div class="modal-header">\
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\
+      <h4>{{title}}</h4>\
+    </div>\
+    <div class="modal-body">\
+        {{&content}}\
+    </div>\
+    <div class="modal-footer">\
+      <a href="#close" class="btn">Close</a>\
+      <a href="#save" class="btn btn-primary">Save changes</a>\
+    </div>';
 
     return {
       indexItem: indexItem,

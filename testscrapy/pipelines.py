@@ -83,7 +83,7 @@ class MongoDBPipeline(object):
         log.msg("Item %s wrote to MongoDB database %s/%s" %
                     (result, settings['MONGODB_DB'],
                     settings['MONGODB_COLLECTION']),
-                    level=log.INFO, spider=spider)
+                    level=log.DEBUG, spider=spider)
         return item
 
 ### 

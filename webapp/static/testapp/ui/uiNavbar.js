@@ -21,7 +21,7 @@ define (
 				this.select('dataSelector').removeClass(this.attr.selectedClass);	
 				// highlight
 				this.select('bizSelector').addClass(this.attr.selectedClass);
-				this.trigger("loadIndexData",{});
+				this.trigger("loadIndexData",{type: 'business'});
 
 			}
 
@@ -30,7 +30,7 @@ define (
 				this.select('dataSelector').removeClass(this.attr.selectedClass);	
 				this.select('marketSelector').addClass(this.attr.selectedClass);	
 				// load market data
-				this.trigger(document,"loadIndexData",{});				
+				this.trigger(document,"loadIndexData",{type: 'market'});				
 			}
 
 			this.dataSelected = function(e,data) {
@@ -39,7 +39,7 @@ define (
 				this.select('bizSelector').removeClass(this.attr.selectedClass);	
 				this.select('dataSelector').addClass(this.attr.selectedClass);	
 				//load data
-				this.trigger(document,"loadIndexData",{});
+				this.trigger(document,"loadIndexData",{type: 'market'});
 			}
 
 

@@ -22,7 +22,6 @@ define (
                 if (e.target && e.target.href) {
 
                     var _ref = e.target.href.split("#");
-                    alert(_ref[_ref.length -1]);
                     this.trigger(document,"loadNewsData",{ref:_ref[_ref.length -1]});    
                 } 
                
@@ -33,7 +32,7 @@ define (
                 //
                 this.on(document,"onIndexDataReady",this.onDataRec);
 
-                this.trigger(document,"loadIndexData",{});
+                this.trigger(document,"loadIndexData",{type:'business'});
 
                 this.on("click",this.onClick);
             });

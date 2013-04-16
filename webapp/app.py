@@ -55,20 +55,26 @@ def get(ref):
     abort(404)
 
 
+############ API call ##########
 import json
-@app.route("/get/business")
-def get_business_index():
+@app.route("/index/<index>")
+def get_index(index):
     """ """
+    print index
+
     three_days = dt.now() - timedelta(days = 2)
-    
+    filter = {'yahoo_market_news':0} if index == 'business' else {'yahoo_market_news':1}
+    filter.update({'timestamp': {"$gt": three_days}})
+
     rets = []
-    for i in client.scrapy.items.find({'yahoo_market_news':0}).sort([('timestamp',DESCENDING)]):
-        rets.append(dict(title=i['title'],source=i['source'],date=i['timestamp'].isoformat(),url=i['url'],_id=str(i['_id'])))
+    for i in client.scrapy.items.find(filter).sort([('timestamp',DESCENDING)]):
+        rets.append(dict(title=i['title'],source=i['source'],
+                         date=i['timestamp'].isoformat(),url=i['url'],
+                         _id=str(i['_id'])))
 
     print rets
     return  current_app.response_class(json.dumps(rets,indent=None if request.is_xhr else 2), mimetype='application/json')
 
-import cgi
 
 @app.route("/query/<_id>")
 def get_news(_id):
