@@ -35,7 +35,7 @@ class YahooFinSpider(BaseSpider):
 	name = "yahoofin"
 	allowed_domains = ['au.finance.yahoo.com']
 	start_urls = ["http://au.finance.yahoo.com/news/topic-top-stories/"]
-	pipelines = ['yahoo', 'mongo', 'whoosh']
+	pipelines = set(['yahoo', 'mongo', 'whoosh'])
 
 	p = re.compile("/news/.*\.html")
 
