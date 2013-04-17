@@ -57,6 +57,7 @@ def get(ref):
 
 ############ API call ##########
 import json
+from timesince import timesince
 @app.route("/index/<index>")
 def get_index(index):
     """ """
@@ -69,7 +70,7 @@ def get_index(index):
     rets = []
     for i in client.scrapy.items.find(filter).sort([('timestamp',DESCENDING)]):
         rets.append(dict(title=i['title'],source=i['source'],
-                         date=i['timestamp'].isoformat(),url=i['url'],
+                         date=timesince(i['timestamp']),url=i['url'],
                          _id=str(i['_id'])))
 
     print rets
