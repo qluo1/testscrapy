@@ -67,13 +67,12 @@ class YahooFinSpider(BaseSpider):
 		return item
 
 
-
-
 class WantTimesChinaSpider(BaseSpider):
 	name = "wantTimes"
 	allowed_domains = ['wantchinatimes.com']
 	start_urls = ["http://www.wantchinatimes.com/Rss.aspx?MainCatID=12"]
-	pipelines = []
+	pipelines = set([])
+
 	def parse(self,response):
 		feed = feedparser.parse(response.url)
 		links = [Request(i.link,self.parse_article) for i in feed.entries ]
