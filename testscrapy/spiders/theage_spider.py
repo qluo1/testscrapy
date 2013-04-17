@@ -28,13 +28,15 @@ import time
 from scrapy.http import Request
 from random import randint
 import codecs
-from testscrapy.items import YahooNewsItem
-
+import feedparser
+from testscrapy.items import YahooNewsItem , WantTimesItem
 
 class YahooFinSpider(BaseSpider):
 	name = "yahoofin"
 	allowed_domains = ['au.finance.yahoo.com']
 	start_urls = ["http://au.finance.yahoo.com/news/topic-top-stories/"]
+	pipelines = ['yahoo', 'mongo', 'whoosh']
+
 	p = re.compile("/news/.*\.html")
 
 	def parse(self,response):
@@ -62,4 +64,26 @@ class YahooFinSpider(BaseSpider):
 		item['timestamp'] = parser.parse(hxs.select("//cite/abbr/@title").extract()[0])
 		item['source'] = hxs.select("//span[@class='provider org']/text()").extract()[0]
 		item['content'] = hxs.select("//div[@id='mediaarticlebody']").extract()[0]
+		return item
+
+
+
+
+class WantTimesChinaSpider(BaseSpider):
+	name = "wantTimes"
+	allowed_domains = ['wantchinatimes.com']
+	start_urls = ["http://www.wantchinatimes.com/Rss.aspx?MainCatID=12"]
+	pipelines = []
+	def parse(self,response):
+		feed = feedparser.parse(response.url)
+		links = [Request(i.link,self.parse_article) for i in feed.entries ]
+		return links
+
+	def parse_article(self, response):
+		print response.url
+		hxs = HtmlXPathSelector(response)
+		item = WantTimesItem()
+		item['url'] = response.url
+		item['title'] = hxs.select("//div[@class='article-header']/h1/text()").extract()[0]
+		item['content'] = hxs.select("//div[@class='article-content']").extract()[0]
 		return item

@@ -12,6 +12,7 @@ define (
 				bizSelector: 	'#biz',
 				marketSelector: '#market',
 				dataSelector: 	'#data',
+				searchSelector: '#search',
 				selectedClass: 	'active',
 			});
 
@@ -23,7 +24,7 @@ define (
 				this.select('bizSelector').addClass(this.attr.selectedClass);
 				this.trigger("loadIndexData",{type: 'business'});
 
-			}
+			}a
 
 			this.marketSelected = function(e,data) {
 				this.select('bizSelector').removeClass(this.attr.selectedClass);	
@@ -42,7 +43,10 @@ define (
 				this.trigger(document,"loadIndexData",{type: 'market'});
 			}
 
+			this.searchSelected = function(e,data) {
 
+
+			}
 			this.after('initialize',function ()
 			{	
 				// default

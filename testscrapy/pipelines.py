@@ -30,6 +30,9 @@ class YahooMarketNewsClassifierPipeline(object):
     """
     """
     def process_item(self, item, spider):
+        if 'yahoo' not in getattr(spider,"pipelines",[]):
+            return item
+        # pipeline
         if item['source'] in ['ABC']:
             item['yahoo_market_news'] = 0
             return item
@@ -64,6 +67,10 @@ class MongoDBPipeline(object):
             self.collection.ensure_index(self.uniq_key, unique=True)
 
     def process_item(self, item, spider):
+        if 'mongo' not in getattr(spider,"pipelines",[]):
+            return item
+
+        # pipeline
         if self.uniq_key is None:
             result = self.collection.insert(dict(item), safe=self.safe)
         else:
@@ -92,5 +99,8 @@ from searchable.yahoofin import write_index
 class WhooshIindexPipeline(object):
 
     def process_item(self, item, spider):
+        if 'whoosh' not in getattr(spider,"pipelines",[]):
+            return item
+        # process
         log.msg("write index :%s" % item, level=log.DEBUG)
         write_index(item['title'],item['url'],item['content'],item['timestamp'])
