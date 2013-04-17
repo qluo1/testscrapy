@@ -24,7 +24,7 @@ define (
 				this.select('bizSelector').addClass(this.attr.selectedClass);
 				this.trigger("loadIndexData",{type: 'business'});
 
-			}a
+			}
 
 			this.marketSelected = function(e,data) {
 				this.select('bizSelector').removeClass(this.attr.selectedClass);	
