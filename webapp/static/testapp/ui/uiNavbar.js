@@ -44,7 +44,11 @@ define (
 			}
 
 			this.searchSelected = function(e,data) {
-
+				this.select('marketSelector').removeClass(this.attr.selectedClass);
+				this.select('bizSelector').removeClass(this.attr.selectedClass);
+				this.select('dataSelector').removeClass(this.attr.selectedClass);
+				this.select('searchSelector').addClass(this.attr.selectedClass);
+				this.trigger(document,"onSearch",{});
 
 			}
 			this.after('initialize',function ()
@@ -55,7 +59,8 @@ define (
 				this.on("click", {
 					bizSelector: this.bizSelected,
 					marketSelector: this.marketSelected,
-					dataSelector: this.dataSelected
+					dataSelector: this.dataSelected,
+					searchSelector: this.searchSelected
 				});
 
 			});

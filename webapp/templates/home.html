@@ -35,13 +35,13 @@
       function(compose, registry, advice, withLogging, debug) {
         debug.enable(true);
         compose.mixin(registry, [advice.withAdvice, withLogging]);
-        require(['testapp/ui/uiNavbar','testapp/ui/uiIndexContent','testapp/ui/uiNewsContent','testapp/data/newsData'], 
-            function(navBarComp,indexContent,newsContent, newsData) {
+        require(['testapp/ui/uiNavbar','testapp/ui/uiIndexContent','testapp/ui/uiNewsContent','testapp/ui/uiSearch','testapp/data/newsData'], 
+            function(navBar,indexContent,newsContent,search,newsData) {
               newsData.attachTo(document,{});
-              navBarComp.attachTo("#top_menu",{});
-              indexContent.attachTo("#index_panel", {contentSelector: "#index_panel"});
+              navBar.attachTo("#top_menu",{});
+              indexContent.attachTo("#index_panel", {contentSelector:"#index_panel"});
+              search.attachTo("#index_panel",{contentSelector: "#index_panel"});
               newsContent.attachTo("#new_panel",{newsSelector: "#news"});
-
         });
       }
     );

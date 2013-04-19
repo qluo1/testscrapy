@@ -24,21 +24,28 @@ define(
        </table>';
 
     var newsItem =
-    '<div class="modal-header">\
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\
-      <h4>{{title}}</h4>\
-    </div>\
-    <div class="modal-body">\
-        {{&content}}\
-    </div>\
-    <div class="modal-footer">\
-      <a href="#close" class="btn">Close</a>\
-      <a href="#save" class="btn btn-primary">Save changes</a>\
-    </div>';
+      '<div class="modal-header">\
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\
+        <h4>{{title}}</h4>\
+      </div>\
+      <div class="modal-body">\
+          {{&content}}\
+      </div>\
+      <div class="modal-footer">\
+        <a href="#close" class="btn">Close</a>\
+        <a href="#save" class="btn btn-primary">Save changes</a>\
+      </div>';
+
+    var searchItem = 
+      '<form class="form-search">\
+        <input type="text" class="input-medium search-query" id="q">\
+        <button type="submit" class="btn">Search</button>\
+       </form>';
 
     return {
       indexItem: indexItem,
-      newsItem: newsItem
+      newsItem: newsItem,
+      searchForm: searchItem
     };
   }
 

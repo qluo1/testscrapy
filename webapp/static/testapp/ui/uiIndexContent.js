@@ -15,9 +15,9 @@ define (
             this.onDataRec = function(e,data) {
                 // render UI ??
                 // alert(data);
+                this.$node.html("");
                 this.$node.html(data.markup);
             }
-
             this.onClick = function(e,data) {
                 if (e.target && e.target.href) {
 

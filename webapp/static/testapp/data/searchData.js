@@ -7,9 +7,9 @@ define (
 
     function(defineComponent,templates,Mustache, underscore) {
         //
-        return defineComponent(newsData);
+        return defineComponent(searchData);
 
-        function newsData() {
+        function searchData() {
 
             this.defaultAttrs({ });
 
@@ -20,43 +20,30 @@ define (
                 this.trigger(document,"onIndexDataReady",{markup: html});
             };
 
-            this.onNewsDataReady = function(data) {
+            this.onSearchDataReady = function(data) {
 
                 // alert(data);
                 var html = Mustache.to_html(templates.newsItem,data);
-                this.trigger(document,"onNewsDataReady",{markup: html});
-
+                this.trigger(document,"onSearchDataReady",{markup: html});
             };
 
-            this.onIndexData = function(e,data) {
-
-                // filter  & cache
+            this.onSearchData = function(e,data) {
+                //
+                
                 var that = this;
-                var url = '/index/';
-                if (data && data.type) {
-                    url += data.type;
-                }else {
-                    url += 'business';
-                }
                 jQuery.getJSON(url, function(data) {
-                        that.onIndexDataReady.apply(that,[data]);
+                        that.onSearchDataReady.apply(that,[data]);
                  });
+
             };
 
-            this.onNewsData = function(e,data) {
-                var that = this;
-                jQuery.getJSON('/query/' + data.ref, function(data){
-                    that.onNewsDataReady.apply(that,[data]);
-                });
-            };
 
 
             this.after('initialize',function ()
             {   
                 // default, load default content
                 //
-                this.on(document,"loadIndexData",this.onIndexData);
-                this.on(document,"loadNewsData",this.onNewsData);
+                this.on(document,"onSearchData",this.onSearchData);
             });
 
         } /* uiIndexContent */
