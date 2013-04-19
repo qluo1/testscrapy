@@ -1,5 +1,13 @@
+import os
+import sys
+PARENT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PARENT not in sys.path:
+    sys.path.insert(0,PARENT)
+#
 from pymongo import MongoClient
+from pymongo import ASCENDING, DESCENDING
 import bson
+
 from bson import json_util
 from flask import Flask, current_app,request
 from flask import render_template, jsonify, abort
@@ -7,7 +15,7 @@ from flask import render_template, jsonify, abort
 
 app = Flask(__name__)
 client = MongoClient('localhost', 27017)
-from pymongo import ASCENDING, DESCENDING
+
 
 from datetime import datetime as dt, timedelta
 
@@ -35,28 +43,28 @@ def item(ref):
 def test():
     return render_template("home.html")
 
-@app.route("/demo")
-def demo():
-    return render_template("index.html")
-
-@app.route("/news")
-def news():
-    return render_template("news.html")
-
-
-############ search items #########################
-from searchable import yahoofin
+# @app.route("/demo")
+# def demo():
+#     return render_template("index.html")
 
 @app.route("/search",methods=['POST'])
 def search():
     """  handle post method """
-    if request.mothod == 'POST':
-        print request.form
-
-        rets = yahoofin.search_content(unicode("BHP"))
+    print request.method
+    print request
+    from searchable import yahoofin
+    #
+    if request.method == 'POST':
+        terms = request.form.get('terms')
+        print terms
+        rets = yahoofin.search_content(unicode(terms))
         # build json here
+        print rets
+        return current_app.response_class(json.dumps(rets,indent=None if request.is_xhr else 2), mimetype='application/json')
 
-    return abort(404)
+
+############ search items #########################
+#, methods=['GET', 'POST']
 
 
 # api
@@ -102,6 +110,7 @@ def get_news(_id):
                    content=i['content'])
         return current_app.response_class(json.dumps(ret,indent=None if request.is_xhr else 2), mimetype='application/json')
     abort(404)
+
 
 if __name__ == "__main__":
     app.run(debug=True,port=9003)

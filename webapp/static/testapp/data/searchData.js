@@ -21,7 +21,7 @@ define (
             };
 
             this.onSearchDataReady = function(data) {
-                // alert(data);
+                alert(data);
                 var html = Mustache.to_html(templates.newsItem,data);
                 this.trigger(document,"onSearchDataReady",{markup: html});
             };
@@ -29,10 +29,12 @@ define (
             this.onSearchData = function(e,data){
                 //
                 var that = this;
+                alert(data.terms);
                 jQuery.ajax({
                     url: "/search",
-                    method: "POST",
-                    type: "json",
+                    type: "POST",
+                    dataType: "json",
+                    data: {'terms': data.terms},
                     error: function(data) {alert("error");},
                     success: function(data) {
                         that.onSearchDataReady.apply(that,[data]);
