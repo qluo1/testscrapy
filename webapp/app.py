@@ -6,21 +6,18 @@ if PARENT not in sys.path:
 #
 from pymongo import MongoClient
 from pymongo import ASCENDING, DESCENDING
+import json
 import bson
-
 from bson import json_util
 from flask import Flask, current_app,request
 from flask import render_template, jsonify, abort
 
-
 app = Flask(__name__)
 client = MongoClient('localhost', 27017)
-
 
 from datetime import datetime as dt, timedelta
 
 # url
-@app.route("/")
 def home():
     three_days = dt.now() - timedelta(days = 2)
     ret = ''
@@ -39,14 +36,15 @@ def item(ref):
 
     return "not found: %s" % ref
 
-@app.route("/test")
+@app.route("/")
 def test():
     return render_template("home.html")
 
-# @app.route("/demo")
-# def demo():
-#     return render_template("index.html")
+@app.route("/demo")
+def demo():
+    return render_template("index.html")
 
+############ search items ###############
 @app.route("/search",methods=['POST'])
 def search():
     """  handle post method """
@@ -62,11 +60,6 @@ def search():
         print rets
         return current_app.response_class(json.dumps(rets,indent=None if request.is_xhr else 2), mimetype='application/json')
 
-
-############ search items #########################
-#, methods=['GET', 'POST']
-
-
 # api
 @app.route("/get/<ref>")
 def get(ref):
@@ -77,9 +70,7 @@ def get(ref):
         return jsonify(item)
     abort(404)
 
-
 ############ API call ##########
-import json
 from timesince import timesince
 @app.route("/index/<index>")
 def get_index(index):
