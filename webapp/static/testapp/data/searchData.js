@@ -21,29 +21,30 @@ define (
             };
 
             this.onSearchDataReady = function(data) {
-
                 // alert(data);
                 var html = Mustache.to_html(templates.newsItem,data);
                 this.trigger(document,"onSearchDataReady",{markup: html});
             };
 
-            this.onSearchData = function(e,data) {
+            this.onSearchData = function(e,data){
                 //
-                
                 var that = this;
-                jQuery.getJSON(url, function(data) {
+                jQuery.ajax({
+                    url: "/search",
+                    method: "POST",
+                    type: "json",
+                    error: function(data) {alert("error");},
+                    success: function(data) {
                         that.onSearchDataReady.apply(that,[data]);
-                 });
-
+                    }
+                });
             };
-
-
 
             this.after('initialize',function ()
             {   
                 // default, load default content
                 //
-                this.on(document,"onSearchData",this.onSearchData);
+                this.on(document,"onSearchTerms",this.onSearchData);
             });
 
         } /* uiIndexContent */

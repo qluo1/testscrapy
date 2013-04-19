@@ -44,6 +44,21 @@ def news():
     return render_template("news.html")
 
 
+############ search items #########################
+from searchable import yahoofin
+
+@app.route("/search",methods=['POST'])
+def search():
+    """  handle post method """
+    if request.mothod == 'POST':
+        print request.form
+
+        rets = yahoofin.search_content(unicode("BHP"))
+        # build json here
+
+    return abort(404)
+
+
 # api
 @app.route("/get/<ref>")
 def get(ref):
