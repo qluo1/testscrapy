@@ -1,3 +1,4 @@
+/*jslint node: true */
 "use strict";
 
 define (['components/flight/lib/component','testapp/template/templates'],

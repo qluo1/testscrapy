@@ -1,3 +1,6 @@
+/*jslint node: true */
+'use strict';
+
 define (
     ['components/flight/lib/component','components/mustache/mustache', 
      'testapp/template/templates','components/underscore-amd/underscore'],

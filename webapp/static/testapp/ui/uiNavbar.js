@@ -1,3 +1,6 @@
+/*jslint node: true */
+'use strict';
+
 define (
 	['components/flight/lib/component','components/jquery/jquery'],
 
@@ -19,26 +22,31 @@ define (
 
 			this.bizSelected = function(e,data) {
 				this.select('marketSelector').removeClass(this.attr.selectedClass);	
-				this.select('dataSelector').removeClass(this.attr.selectedClass);	
+				this.select('dataSelector').removeClass(this.attr.selectedClass);
+				this.select('searchSelector').removeClass(this.attr.selectedClass);
 				// highlight
 				this.select('bizSelector').addClass(this.attr.selectedClass);
+				// load market data
 				this.trigger("loadIndexData",{type: 'business'});
 
 			}
 
 			this.marketSelected = function(e,data) {
 				this.select('bizSelector').removeClass(this.attr.selectedClass);	
-				this.select('dataSelector').removeClass(this.attr.selectedClass);	
-				this.select('marketSelector').addClass(this.attr.selectedClass);	
+				this.select('dataSelector').removeClass(this.attr.selectedClass);
+				this.select('searchSelector').removeClass(this.attr.selectedClass);
+				// highlight
+				this.select('marketSelector').addClass(this.attr.selectedClass);
 				// load market data
 				this.trigger(document,"loadIndexData",{type: 'market'});				
 			}
 
 			this.dataSelected = function(e,data) {
 				//
-				this.select('marketSelector').removeClass(this.attr.selectedClass);	
-				this.select('bizSelector').removeClass(this.attr.selectedClass);	
-				this.select('dataSelector').addClass(this.attr.selectedClass);	
+				this.select('marketSelector').removeClass(this.attr.selectedClass);
+				this.select('bizSelector').removeClass(this.attr.selectedClass);
+				this.select('searchSelector').removeClass(this.attr.selectedClass);
+				this.select('dataSelector').addClass(this.attr.selectedClass);
 				//load data
 				this.trigger(document,"loadIndexData",{type: 'market'});
 			}
@@ -47,6 +55,7 @@ define (
 				this.select('marketSelector').removeClass(this.attr.selectedClass);
 				this.select('bizSelector').removeClass(this.attr.selectedClass);
 				this.select('dataSelector').removeClass(this.attr.selectedClass);
+				//
 				this.select('searchSelector').addClass(this.attr.selectedClass);
 				this.trigger(document,"onSearch",{});
 
