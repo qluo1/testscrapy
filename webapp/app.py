@@ -1,8 +1,10 @@
 import os
 import sys
+## webapp folder
 PARENT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if PARENT not in sys.path:
     sys.path.insert(0,PARENT)
+
 #
 from flask import Flask
 
@@ -31,6 +33,9 @@ def item(ref):
 
 from urls import build_url
 build_url(app)
+# load configuration
+import default_cfg
+app.config.from_object(default_cfg)
 
 if __name__ == "__main__":
     app.run(debug=True,port=9003)

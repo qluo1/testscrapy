@@ -21,15 +21,15 @@ define (
             };
 
             this.onSearchDataReady = function(data) {
-                alert(data);
-                var html = Mustache.to_html(templates.newsItem,data);
-                this.trigger(document,"onSearchDataReady",{markup: html});
+                // alert(data);
+                var html = Mustache.to_html(templates.searchItem,{items: data});
+                this.trigger(document,"onSearch",{markup: html});
             };
 
             this.onSearchData = function(e,data){
                 //
                 var that = this;
-                alert(data.terms);
+                // alert(data.terms);
                 jQuery.ajax({
                     url: "/search",
                     type: "POST",
@@ -41,7 +41,7 @@ define (
                     }
                 });
             };
-
+            
             this.after('initialize',function ()
             {   
                 // default, load default content

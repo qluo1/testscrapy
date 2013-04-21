@@ -26,6 +26,8 @@ define (
 				this.select('searchSelector').removeClass(this.attr.selectedClass);
 				// highlight
 				this.select('bizSelector').addClass(this.attr.selectedClass);
+				//
+				this.trigger(document,"hideSearch",{});
 				// load market data
 				this.trigger("loadIndexData",{type: 'business'});
 
@@ -37,6 +39,8 @@ define (
 				this.select('searchSelector').removeClass(this.attr.selectedClass);
 				// highlight
 				this.select('marketSelector').addClass(this.attr.selectedClass);
+				// 
+				this.trigger(document,"hideSearch",{});
 				// load market data
 				this.trigger(document,"loadIndexData",{type: 'market'});				
 			}
@@ -48,6 +52,7 @@ define (
 				this.select('searchSelector').removeClass(this.attr.selectedClass);
 				this.select('dataSelector').addClass(this.attr.selectedClass);
 				//load data
+				this.trigger(document,"hideSearch",{});			
 				this.trigger(document,"loadIndexData",{type: 'market'});
 			}
 
@@ -57,6 +62,8 @@ define (
 				this.select('dataSelector').removeClass(this.attr.selectedClass);
 				//
 				this.select('searchSelector').addClass(this.attr.selectedClass);
+				//
+				this.trigger(document,"hideIndex",{});
 				this.trigger(document,"onSearch",{});
 
 			}

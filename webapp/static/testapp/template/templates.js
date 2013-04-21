@@ -36,16 +36,21 @@ define(
         <a href="#save" class="btn btn-primary">Save changes</a>\
       </div>';
 
-    var searchItem = 
+    var searchForm = 
       '<form class="form-search">\
         <input type="text" class="input-medium search-query" id="q">\
         <button type="submit" class="btn">Search</button>\
        </form>';
-
+    var searchItem = 
+    '<div><ul>{{#items}}\
+          <li><a href="/get/#{{oid}}">{{title}}</a> / {{date}}\
+          {{/items}}</ul>\
+     </div>';
     return {
       indexItem: indexItem,
       newsItem: newsItem,
-      searchForm: searchItem
+      searchForm: searchForm,
+      searchItem: searchItem
     };
   }
 

@@ -10,4 +10,5 @@ def build_url(app):
         app.add_url_rule('/query/<oid>','query',get_news),
         app.add_url_rule('/search','search',search, methods=['POST']),
     )
+    # return urls
 

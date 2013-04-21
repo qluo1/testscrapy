@@ -26,10 +26,19 @@ define (
 
                     var _ref = e.target.href.split("#");
                     this.trigger(document,"loadNewsData",{ref:_ref[_ref.length -1]}); 
-                    jQuery(e.target).addClass("visited");   
+                    jQuery(e.target).addClass("visited");
                 } 
                
             }
+
+            this.onHideIndex = function(e,data) {
+                alert("onhideindex");
+
+                if (this.$node.html() !== '') {
+                    this.$node.html("");    
+                }
+            }
+
             this.after('initialize',function ()
             {   
                 // default, load default content
@@ -37,6 +46,8 @@ define (
                 this.on(document,"onIndexDataReady",this.onDataRec);
 
                 this.trigger(document,"loadIndexData",{type:'business'});
+
+                this.trigger(document,"hideIndex",this.onHideIndex);
 
                 this.on("click",this.onClick);
             });
