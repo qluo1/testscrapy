@@ -3,7 +3,7 @@
 
 define (
     ['components/flight/lib/component','testapp/template/templates',
-     'components/mustache/mustache','components/underscore-amd/underscore'],
+     'components/mustache/mustache'],
 
     function(defineComponent,templates,Mustache, underscore) {
         //
@@ -15,29 +15,29 @@ define (
 
             this.onIndexDataReady = function(data) {
                 //
-                // alert(data);
                 var html = Mustache.to_html(templates.indexItem, {items:data});
                 this.trigger(document,"onIndexDataReady",{markup: html});
             };
 
-            this.onSearchDataReady = function(data) {
+            this.onSearchDataReady = function(data,terms) {
                 // alert(data);
-                var html = Mustache.to_html(templates.searchItem,{items: data});
-                this.trigger(document,"onSearch",{markup: html});
+                var html = Mustache.to_html(templates.indexItem, {items: data});
+                this.trigger(document,"onSearch",{markup: html, terms: terms});
             };
 
             this.onSearchData = function(e,data){
                 //
                 var that = this;
                 // alert(data.terms);
+                var terms = data.terms;
                 jQuery.ajax({
                     url: "/search",
                     type: "POST",
                     dataType: "json",
-                    data: {'terms': data.terms},
+                    data: {'terms': terms},
                     error: function(data) {alert("error");},
                     success: function(data) {
-                        that.onSearchDataReady.apply(that,[data]);
+                        that.onSearchDataReady.apply(that,[data,terms]);
                     }
                 });
             };

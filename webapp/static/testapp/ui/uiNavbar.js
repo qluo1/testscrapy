@@ -40,7 +40,6 @@ define (
 				// highlight
 				this.select('marketSelector').addClass(this.attr.selectedClass);
 				// 
-				this.trigger(document,"hideSearch",{});
 				// load market data
 				this.trigger(document,"loadIndexData",{type: 'market'});				
 			}
@@ -63,9 +62,7 @@ define (
 				//
 				this.select('searchSelector').addClass(this.attr.selectedClass);
 				//
-				this.trigger(document,"hideIndex",{});
 				this.trigger(document,"onSearch",{});
-
 			}
 			this.after('initialize',function ()
 			{	

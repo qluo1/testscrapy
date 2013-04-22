@@ -15,7 +15,7 @@ define(
         <tbody>\
           {{#items}}\
             <tr>\
-               <td><a href="#{{_id}}">{{title}}</a></td>\
+               <td><a href="#{{oid}}">{{title}}</a></td>\
                <td>{{source}}</td>\
                <td>{{date}}</td>\
             </tr>\

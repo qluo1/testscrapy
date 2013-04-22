@@ -36,14 +36,13 @@
       function(compose, registry, advice, withLogging, debug) {
         debug.enable(true);
         compose.mixin(registry, [advice.withAdvice, withLogging]);
-        require(['testapp/ui/uiNavbar','testapp/ui/uiIndexContent','testapp/ui/uiNewsContent','testapp/ui/uiSearch','testapp/data/newsData','testapp/data/searchData'], 
-            function(navBar,indexContent,newsContent,search,newsData,searchData) {
-              newsData.attachTo(document,{});
-              searchData.attachTo(document,{});
-              navBar.attachTo("#top_menu",{});
-              indexContent.attachTo("#index_panel", {contentSelector:"#index_panel"});
-              search.attachTo("#search_panel",{contentSelector: "#search_panel"});
-              newsContent.attachTo("#news_panel",{newsSelector: "#news"});
+        require(['testapp/ui/uiNavbar','testapp/ui/uiIndexContent','testapp/ui/uiNewsContent','testapp/data/newsData','testapp/data/searchData'],
+          function(navBar,indexContent,newsContent,newsData,searchData) {
+            newsData.attachTo(document,{});
+            searchData.attachTo(document,{});
+            navBar.attachTo("#top_menu",{});
+            indexContent.attachTo("#index_panel",{contentSelector:"#index_panel"});
+            newsContent.attachTo("#news_panel",{newsSelector: "#news"});
         });
       }
     );

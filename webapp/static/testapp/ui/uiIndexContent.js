@@ -12,7 +12,10 @@ define (
         function uiIndexContent() {
 
             this.defaultAttrs({
-                contentSelector : '#IndexContent'
+                contentSelector : '#IndexContent',
+                linkSelector : 'a',
+                btnSelector : '.btn',
+                searchTerms : 'input#q'
             });
 
             this.onDataRec = function(e,data) {
@@ -20,7 +23,8 @@ define (
                 // alert(data);
                 this.$node.html("");
                 this.$node.html(data.markup);
-            }
+            };
+
             this.onClick = function(e,data) {
                 if (e.target && e.target.href) {
 
@@ -28,29 +32,41 @@ define (
                     this.trigger(document,"loadNewsData",{ref:_ref[_ref.length -1]}); 
                     jQuery(e.target).addClass("visited");
                 } 
-               
+            };
+
+        /* search */
+        this.onSearch = function(e,data) {
+            this.$node.html("");
+            if (data && data.markup) {
+                this.$node.html(templates.searchForm);
+                this.$node.append(data.markup);
+            }else {
+                this.$node.html(templates.searchForm);
             }
+        };
 
-            this.onHideIndex = function(e,data) {
-                alert("onhideindex");
+        this.onSubmit = function(e,data) {
+            var terms = jQuery(this.attr.searchTerms).val();
+            // alert("on submit: " + terms);
+            this.trigger(document,"onSearchTerms", {terms: terms});
+        };
 
-                if (this.$node.html() !== '') {
-                    this.$node.html("");    
-                }
-            }
+        /* initializ */
+        this.after('initialize',function ()
+        {   
+            // default, load default content
+            //
+            this.on(document,"onIndexDataReady",this.onDataRec);
+            this.on(document,"onSearch",this.onSearch);
+            
+            this.on("click", {
+                linkSelector:  this.onClick,
+                btnSelector: this.onSubmit,
+             } );
 
-            this.after('initialize',function ()
-            {   
-                // default, load default content
-                //
-                this.on(document,"onIndexDataReady",this.onDataRec);
-
-                this.trigger(document,"loadIndexData",{type:'business'});
-
-                this.trigger(document,"hideIndex",this.onHideIndex);
-
-                this.on("click",this.onClick);
-            });
+            // load default pages
+            this.trigger(document,"loadIndexData",{type:'business'});
+        });
 
         } /* uiIndexContent */
     }

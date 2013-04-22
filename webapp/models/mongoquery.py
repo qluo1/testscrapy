@@ -21,7 +21,7 @@ def query_index(index,numOfDays=3):
     for i in client.scrapy.items.find(filter).sort([('timestamp',DESCENDING)]):
         rets.append(dict(title=i['title'],source=i['source'],
                          date=timesince(i['timestamp']),url=i['url'],
-                         _id=str(i['_id'])))
+                         oid=str(i['_id'])))
     return rets
 
 def query_news_by_oid(oid):
@@ -35,6 +35,7 @@ def query_news_by_oid(oid):
 
 def query_items(items):
     """ """
-    cur = client.scrapy.items.find({'url': {'$in': items}})
+    filter = {'url': {'$in': items}}
+    cur = client.scrapy.items.find(filter).sort([('timestamp',DESCENDING)])
     print cur.count()
     return [dict(title=i['title'],oid=str(i['_id']),date=timesince(i['timestamp'])) for i in cur]
