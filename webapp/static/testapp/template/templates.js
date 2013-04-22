@@ -4,12 +4,12 @@
 define(
   function() {
      var indexItem =
-      '<table class="table">\
+      '<table class="table table-striped table-bordered">\
         <thead>\
           <tr>\
-            <th> title </th>\
-            <th> source </th>\
-            <th> date </th>\
+            <th>Title</th>\
+            <th>Source</th>\
+            <th>Date</th>\
           </tr>\
         </thead>\
         <tbody>\
@@ -41,16 +41,12 @@ define(
         <input type="text" class="input-medium search-query" id="q">\
         <button type="submit" class="btn">Search</button>\
        </form>';
-    var searchItem = 
-    '<div><ul>{{#items}}\
-          <li><a href="/get/#{{oid}}">{{title}}</a> / {{date}}\
-          {{/items}}</ul>\
-     </div>';
+
     return {
       indexItem: indexItem,
       newsItem: newsItem,
-      searchForm: searchForm,
-      searchItem: searchItem
+      searchForm: searchForm
+
     };
   }
 
