@@ -22,7 +22,7 @@ define (
             this.onSearchDataReady = function(data,terms) {
                 // alert(data);
                 var html = Mustache.to_html(templates.indexItem, {items: data});
-                this.trigger(document,"onSearch",{markup: html, terms: terms});
+                this.trigger(document,"onSearch",{markup: html, term: terms});
             };
 
             this.onSearchData = function(e,data){
