@@ -4,7 +4,7 @@
 define(
   function() {
      var indexItem =
-      '<table class="table">\
+      '<table class="table table-striped table-bordered">\
         <thead>\
           <tr>\
             <th> title </th>\
