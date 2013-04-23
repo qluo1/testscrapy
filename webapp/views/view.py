@@ -36,16 +36,16 @@ def get_news(oid):
 ############ search items ###############
 def search():
     """  handle post method """
-    print request.method
-    print request
+    # print request.method
+    # print request
     from searchable import yahoofin
     #
     if request.method == 'POST':
         terms = request.form.get('terms')
-        print terms
+        # print terms
         rets = yahoofin.search_content(unicode(terms))
         # build json here
-        print rets
+        # print rets
         query = [i['url'] for i in rets]
         # print query
         items = query_items(query)

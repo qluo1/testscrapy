@@ -35,6 +35,13 @@ MONGODB_ITEM_ID_FIELD = '_id'
 MONGODB_SAFE = True
 
 
+## crawler map to collection
+MONGODB_COL_MAP = {
+    
+    'yahoofin': 'items',
+    'wantTimes': 'wantTIme',
+}
+
 # 
 NUM_TOP_WORDS = 30
 from local_settings import *

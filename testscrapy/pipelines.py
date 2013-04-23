@@ -60,6 +60,9 @@ class MongoDBPipeline(object):
             MONGODB_ITEM_ID_FIELD)
         self.safe = settings.get('MONGODB_SAFE', MONGODB_SAFE)
         self.replace = settings.get('REPLACE_ITEM', MONGODB_SAFE)
+        #
+        self.col_map = settings['MONGODB_COL_MAP']
+
         if isinstance(self.uniq_key, basestring) and self.uniq_key == "":
             self.uniq_key = None
             
@@ -69,6 +72,8 @@ class MongoDBPipeline(object):
     def process_item(self, item, spider):
         if 'mongo' not in getattr(spider,"pipelines",[]):
             return item
+        #
+        # col = self.db[self.col_map[spider.name]]
 
         # pipeline
         if self.uniq_key is None:
