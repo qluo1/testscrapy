@@ -3,7 +3,7 @@ import json
 from flask import Flask, current_app,request
 from flask import render_template, jsonify, abort
 # mongo db
-from models import query_index,query_news_by_oid,query_items
+from models import query_yahoo, query_wantTimes,query_news_by_oid,query_items
 
 import logging 
 log = logging.getLogger(__name__)
@@ -19,12 +19,16 @@ def demo():
 
 ############ API call ##########
 from timesince import timesince
-def get_index(index):
+def get_yahoo(index):
     """ """
-    rets = query_index(index)
+    rets = query_yahoo(index)
     return  current_app.response_class(json.dumps(rets,indent=None if request.is_xhr else 2), 
                         mimetype='application/json')
-
+def get_wantTimes():
+    """ """
+    rets = query_wantTimes()
+    return  current_app.response_class(json.dumps(rets,indent=None if request.is_xhr else 2), 
+                        mimetype='application/json')
 def get_news(oid):
     """ """
     ret = query_news_by_oid(oid)

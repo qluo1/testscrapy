@@ -10,28 +10,50 @@ from utils.timesince import timesince
 # mongo db
 client =  MongoClient('localhost', 27017)
 
+import default_cfg
 
-def query_index(index,numOfDays=3):
-    # print index
-    three_days = dt.now() - timedelta(days = numOfDays)
+def query_yahoo(index,numOfDays=3):
+    """ query yahoo index content"""
+    num_days = dt.now() - timedelta(days = numOfDays)
+
     filter = {'yahoo_market_news':0} if index == 'business' else {'yahoo_market_news':1}
-    filter.update({'timestamp': {"$gt": three_days}})
+    filter.update({'timestamp': {"$gt": num_days}})
 
+    coll = default_cfg.MONGODB_COLLECTIONS['yahoofin']
     rets = []
-    for i in client.scrapy.items.find(filter).sort([('timestamp',DESCENDING)]):
+    for i in client.scrapy[coll].find(filter).sort([('timestamp',DESCENDING)]):
         rets.append(dict(title=i['title'],source=i['source'],
                          date=timesince(i['timestamp']),url=i['url'],
                          oid=str(i['_id'])))
     return rets
 
+def query_wantTimes(numOfDays=3):
+    """ query wantTimes index content """
+    num_days = dt.now() - timedelta(days=numOfDays)
+
+    filter = {'timestamp': {"$gt": num_days}}
+    
+    coll = default_cfg.MONGODB_COLLECTIONS['wantTimes']
+    # print coll
+    # print client.scrapy[coll].count()
+    rets = []
+    for i in client.scrapy[coll].find(filter).sort([('timestamp',DESCENDING)]):
+        rets.append(dict(title=i['title'],source=i['source'],
+                         date=timesince(i['timestamp']),url=i['url'],
+                         oid=str(i['_id'])))
+    return rets
 def query_news_by_oid(oid):
-    i = client.scrapy.items.find_one({"_id": bson.ObjectId(oid)})
+    i = None
+    for key,val in default_cfg.MONGODB_COLLECTIONS.items():
+        i =  client.scrapy[val].find_one({"_id": bson.ObjectId(oid)})
+        if i: break
+
     if i:
+        # print i
         return dict(title=i['title'],source=i['source'],
                    date=i['timestamp'].isoformat(),url=i['url'],
                    content=i['content'])
-    else:
-        return None
+    return i
 
 def query_items(items):
     """ """

@@ -21,5 +21,6 @@ class YahooNewsItem(Item):
 class WantTimesItem(Item):
     url = Field()
     title = Field()
+    source = Field()
     content = Field()
     timestamp = Field()

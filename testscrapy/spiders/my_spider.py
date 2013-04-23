@@ -66,12 +66,12 @@ class YahooFinSpider(BaseSpider):
 		item['content'] = hxs.select("//div[@id='mediaarticlebody']").extract()[0]
 		return item
 
-
+from dateutil import parser
 class WantTimesChinaSpider(BaseSpider):
 	name = "wantTimes"
 	allowed_domains = ['wantchinatimes.com']
 	start_urls = ["http://www.wantchinatimes.com/Rss.aspx?MainCatID=12"]
-	pipelines = set([])
+	pipelines = set(['mongo'])
 
 	def parse(self,response):
 		feed = feedparser.parse(response.url)
@@ -79,10 +79,16 @@ class WantTimesChinaSpider(BaseSpider):
 		return links
 
 	def parse_article(self, response):
-		print response.url
+		""" """
+		log.msg(response.url,level=log.INFO)
 		hxs = HtmlXPathSelector(response)
 		item = WantTimesItem()
 		item['url'] = response.url
 		item['title'] = hxs.select("//div[@class='article-header']/h1/text()").extract()[0]
 		item['content'] = hxs.select("//div[@class='article-content']").extract()[0]
+		extra = hxs.select("//div[@class='article-header']/ul/li/text()").extract()
+		
+		log.msg(extra,level=log.DEBUG)
+		item['source'] = extra[0]
+		item['timestamp'] = parser.parse("%sT%s" % (extra[1],extra[2].replace("(",'').replace(")","")))
 		return item

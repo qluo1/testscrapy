@@ -5,7 +5,10 @@ from whoosh.index import create_in, open_dir
 from whoosh.fields import  Schema, TEXT,ID,DATETIME
 from whoosh.qparser import QueryParser
 
-schema = Schema(title=TEXT(stored=True), url=ID(stored=True), date=DATETIME, content=TEXT)
+schema = Schema(title=TEXT(stored=True), 
+                url=ID(stored=True), 
+                date=DATETIME, 
+                content=TEXT)
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
