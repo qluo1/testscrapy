@@ -1,5 +1,3 @@
-import os
-import sys
 from datetime import datetime as dt, timedelta
 # mongo db
 from pymongo import MongoClient
@@ -11,11 +9,6 @@ from utils.timesince import timesince
 
 # mongo db
 client =  MongoClient('localhost', 27017)
-
-## default config
-PARENT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-if PARENT not in sys.path:
-    sys.path.insert(0,PARENT)
 
 import default_cfg
 
@@ -56,7 +49,7 @@ def query_news_by_oid(oid):
         if i: break
 
     if i:
-        print i
+        # print i
         return dict(title=i['title'],source=i['source'],
                    date=i['timestamp'].isoformat(),url=i['url'],
                    content=i['content'])
