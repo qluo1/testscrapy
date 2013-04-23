@@ -71,7 +71,7 @@ class WantTimesChinaSpider(BaseSpider):
 	name = "wantTimes"
 	allowed_domains = ['wantchinatimes.com']
 	start_urls = ["http://www.wantchinatimes.com/Rss.aspx?MainCatID=12"]
-	pipelines = set([])
+	pipelines = set(['mongo'])
 
 	def parse(self,response):
 		feed = feedparser.parse(response.url)
