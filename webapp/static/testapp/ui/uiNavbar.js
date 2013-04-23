@@ -29,7 +29,7 @@ define (
 				//
 				this.trigger(document,"hideSearch",{});
 				// load market data
-				this.trigger("loadIndexData",{type: 'business'});
+				this.trigger("loadIndexData",{src:'yahoo',type:'business'});
 
 			}
 
@@ -41,7 +41,7 @@ define (
 				this.select('marketSelector').addClass(this.attr.selectedClass);
 				// 
 				// load market data
-				this.trigger(document,"loadIndexData",{type: 'market'});				
+				this.trigger(document,"loadIndexData",{src:'yahoo',type:'market'});				
 			}
 
 			this.dataSelected = function(e,data) {
@@ -52,7 +52,7 @@ define (
 				this.select('dataSelector').addClass(this.attr.selectedClass);
 				//load data
 				this.trigger(document,"hideSearch",{});			
-				this.trigger(document,"loadIndexData",{type: 'market'});
+				this.trigger(document,"loadIndexData",{src:'wantTimes'});
 			}
 
 			this.searchSelected = function(e,data) {

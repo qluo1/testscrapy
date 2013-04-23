@@ -32,12 +32,15 @@ define (
 
                 // filter  & cache
                 var that = this;
-                var url = '/index/';
-                if (data && data.type) {
-                    url += data.type;
-                }else {
-                    url += 'business';
+                // default
+                var url = '/yahoo/business';
+                if (data && data.src) {
+                    url = "/" + data.src;
+                    if (data.type) {
+                        url += "/" + data.type;
+                    }
                 }
+
                 jQuery.getJSON(url, function(data) {
                         that.onIndexDataReady.apply(that,[data]);
                  });
