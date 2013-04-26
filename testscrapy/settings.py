@@ -11,13 +11,13 @@ BOT_NAME = 'qiscrapy'
 SPIDER_MODULES = ['testscrapy.spiders']
 NEWSPIDER_MODULE = 'testscrapy.spiders'
 
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
+# Crawl user-agent
 USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.02 (KHTML, like Gecko) Chrome/25.0.1364.172 Safari/537.22'
 
 #
-LOG_FILE = "./log/scrapy.log"
-LOG_LEVEL = "DEBUG"
-# mongodb pipelien
+LOG_FILE = "./logs/scrapy.log"
+LOG_LEVEL = "INFO"
+# pipelien
 
 ITEM_PIPELINES = [
   'testscrapy.pipelines.DuplicatesPipeline',
@@ -33,13 +33,16 @@ MONGODB_UNIQ_KEY = 'url'
 MONGODB_ITEM_ID_FIELD = '_id'
 MONGODB_SAFE = True
 
-# map crawl name to collection
+# map crawl name to mongodb collection
 MONGODB_COLLECTIONS = {
 	'yahoofin': 'items',
 	'wantTimes': 'wantTimes',
 }
 
-
 # 
 NUM_TOP_WORDS = 30
-from local_settings import *
+# import local settings to override default
+try:
+	from local_settings import *
+except ImportError:
+	pass

@@ -3,10 +3,6 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/topics/item-pipeline.html
 
-class TestscrapyPipeline(object):
-    def process_item(self, item, spider):
-        return item
-
 from scrapy import signals
 from scrapy.exceptions import DropItem
 
@@ -22,8 +18,7 @@ class DuplicatesPipeline(object):
             self.ids_seen.add(item['url'])
             return item
 
-
-#### 
+### 
 from searchable.yahooClassifier import YahooClassifier
 
 class YahooMarketNewsClassifierPipeline(object):
@@ -45,12 +40,14 @@ class YahooMarketNewsClassifierPipeline(object):
         log.msg("category: %s as %d" % (item['title'],cat), level=log.INFO)
         return item
 
-"""MongoDB Pipeline for scrapy"""
+### MongoDB Pipeline for scrapy
 import pymongo
 from scrapy.conf import settings
 from scrapy import log
 
+### default settings
 MONGODB_SAFE = True
+MONGODB_REPLACE_ITEM = False
 MONGODB_ITEM_ID_FIELD = "_id"
 
 class MongoDBPipeline(object):
@@ -61,9 +58,7 @@ class MongoDBPipeline(object):
         self.uniq_key = settings.get('MONGODB_UNIQ_KEY', None)
         self.itemid = settings.get('MONGODB_ITEM_ID_FIELD',MONGODB_ITEM_ID_FIELD)
         self.safe = settings.get('MONGODB_SAFE', MONGODB_SAFE)
-        self.replace = settings.get('REPLACE_ITEM', MONGODB_SAFE)
-        #
-        self.col_map = settings['MONGODB_COL_MAP']
+        self.replace = settings.get('REPLACE_ITEM', MONGODB_REPLACE_ITEM)
 
         if isinstance(self.uniq_key, basestring) and self.uniq_key == "":
             self.uniq_key = None

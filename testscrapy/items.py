@@ -5,22 +5,24 @@
 
 from scrapy.item import Item, Field
 
-class TestscrapyItem(Item):
-    # define the fields for your item here like:
-    # name = Field()
-    pass
+class MongoItem(Item):
+    """ _id will be populated by mongodb pipeline """
+    _id = Field()
 
-class YahooNewsItem(Item):
-	url = Field()
-	title = Field()
-	source = Field()
-	timestamp = Field()
-	content = Field()
-	yahoo_market_news = Field()
+class YahooNewsItem(MongoItem):
+    """ """
+    url = Field()
+    title = Field()
+    source = Field()
+    timestamp = Field()
+    content = Field()
+    yahoo_market_news = Field()
 
-class WantTimesItem(Item):
+class WantTimesItem(MongoItem):
+    """ """
     url = Field()
     title = Field()
     source = Field()
     content = Field()
     timestamp = Field()
+
