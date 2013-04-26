@@ -21,7 +21,7 @@ LOG_LEVEL = "INFO"
 
 ITEM_PIPELINES = [
   'testscrapy.pipelines.DuplicatesPipeline',
-  # 'testscrapy.pipelines.YahooMarketNewsClassifierPipeline',
+  'testscrapy.pipelines.YahooMarketNewsClassifierPipeline',
   'testscrapy.pipelines.MongoDBPipeline',
   'testscrapy.pipelines.WhooshIindexPipeline',
 ]
@@ -37,13 +37,6 @@ MONGODB_SAFE = True
 MONGODB_COLLECTIONS = {
 	'yahoofin': 'items',
 	'wantTimes': 'wantTimes',
-}
-
-## crawler map to collection
-MONGODB_COL_MAP = {
-    
-    'yahoofin': 'items',
-    'wantTimes': 'wantTIme',
 }
 
 # 

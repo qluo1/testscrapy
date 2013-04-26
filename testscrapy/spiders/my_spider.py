@@ -67,6 +67,8 @@ class YahooFinSpider(BaseSpider):
 		return item
 
 from dateutil import parser
+import pytz
+
 class WantTimesChinaSpider(BaseSpider):
 	name = "wantTimes"
 	allowed_domains = ['wantchinatimes.com']
@@ -76,7 +78,7 @@ class WantTimesChinaSpider(BaseSpider):
 	def parse(self,response):
 		feed = feedparser.parse(response.url)
 		links = [Request(i.link,self.parse_article) for i in feed.entries ]
-		return links
+		return links[:3]
 
 	def parse_article(self, response):
 		""" """
@@ -91,4 +93,6 @@ class WantTimesChinaSpider(BaseSpider):
 		log.msg(extra,level=log.DEBUG)
 		item['source'] = extra[0]
 		item['timestamp'] = parser.parse("%sT%s" % (extra[1],extra[2].replace("(",'').replace(")","")))
+		# item['timestamp'] = item['timestamp'].astimezone(pytz.utc)
+		# print "%sT%s" % (extra[1],extra[2].replace("(",'').replace(")","")), item['timestamp'],item['timestamp'].astimezone(pytz.utc), item['timestamp'].tzinfo
 		return item
