@@ -7,6 +7,8 @@ from dateutil import parser
 from scrapy import log
 from scrapy.conf import settings
 
+from dateutil import parser
+import pytz
 from selenium import webdriver
 
 class TheAgeSpider(CrawlSpider):
@@ -65,9 +67,6 @@ class YahooFinSpider(BaseSpider):
 		item['source'] = hxs.select("//span[@class='provider org']/text()").extract()[0]
 		item['content'] = hxs.select("//div[@id='mediaarticlebody']").extract()[0]
 		return item
-
-from dateutil import parser
-import pytz
 
 class WantTimesChinaSpider(BaseSpider):
 	name = "wantTimes"
