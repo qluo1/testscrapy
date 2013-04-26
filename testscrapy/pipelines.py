@@ -40,7 +40,7 @@ class YahooMarketNewsClassifierPipeline(object):
             item['yahoo_market_news'] = 0
             return item
         # using classifier here for other source
-        cat = self.clasifier.classify(item['content'])
+        cat = self.classifier.classify(item['content'])
         item['yahoo_market_news'] = cat
         log.msg("category: %s as %d" % (item['title'],cat), level=log.INFO)
         return item
@@ -57,7 +57,6 @@ class MongoDBPipeline(object):
     def __init__(self):
         connection = pymongo.Connection(settings['MONGODB_SERVER'], settings['MONGODB_PORT'])
         self.db = connection[settings['MONGODB_DB']]
-        # self.collection = self.db[settings['MONGODB_COLLECTION']]
         self.collections = settings['MONGODB_COLLECTIONS']
         self.uniq_key = settings.get('MONGODB_UNIQ_KEY', None)
         self.itemid = settings.get('MONGODB_ITEM_ID_FIELD',MONGODB_ITEM_ID_FIELD)
