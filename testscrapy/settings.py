@@ -26,6 +26,10 @@ ITEM_PIPELINES = [
   'testscrapy.pipelines.WhooshIindexPipeline',
 ]
 
+EXTENSIONS = {
+    'scrapy.contrib.feedexport.FeedExporter': None,
+}
+
 MONGODB_SERVER = 'localhost'
 MONGODB_PORT = 27017
 MONGODB_DB = 'scrapy'
