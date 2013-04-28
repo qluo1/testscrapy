@@ -26,3 +26,11 @@ class WantTimesItem(MongoItem):
     content = Field()
     timestamp = Field()
 
+class RealestateWeekSummaryItem(MongoItem):
+    """ """
+    state = Field()
+    week_start = Field()
+    week_end = Field()
+    summary = Field()
+
+    
