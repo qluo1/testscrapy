@@ -7,7 +7,7 @@ from whoosh.qparser import QueryParser
 
 schema = Schema(title=TEXT(stored=True), 
                 url=ID(stored=True), 
-                date=DATETIME, 
+                date=DATETIME,
                 content=TEXT)
 
 ROOT = os.path.dirname(os.path.abspath(__file__))

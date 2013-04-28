@@ -9,6 +9,8 @@ from scrapy import log
 from scrapy.conf import settings
 from scrapy.http import Request
 ##
+from pprint import pprint
+import string
 import codecs
 import re
 import time
@@ -43,6 +45,9 @@ class YahooFinSpider(BaseSpider):
     def parse(self,response):
         print response.url
         if settings['LOCAL_ENV'] == 'HOME':
+            from pyvirtualdisplay import Display
+            display = Display(visible=0, size=(800, 600))
+            display.start()
             browser = webdriver.Firefox() 
         else:
             browser = webdriver.Remote("http://localhost:4444",{}) 
@@ -54,6 +59,10 @@ class YahooFinSpider(BaseSpider):
         hxs = HtmlXPathSelector(text=browser.page_source)
         links = hxs.select("//a/@href").extract()
         browser.close()
+        # close virtual display
+        if 'display' in locals() and display.is_started:
+            display.stop()
+
         return [Request("http://au.finance.yahoo.com"+i,callback=self.parse_article) for i in links if self.p.search(i)]
 
     def parse_article(self,response):
@@ -101,8 +110,8 @@ def chunks(l, n):
     for i in xrange(0, len(l), n):
         yield l[i:i+n]
 
-from pprint import pprint
-import string
+cleanup = lambda x: x.replace('\n','').replace('\t','').replace(u'\xa0','').strip()
+
 class RealestateViewSpider(BaseSpider):
     name = "realestateView"
     allowed_domains = ['realestateview.com.au']
@@ -118,13 +127,16 @@ class RealestateViewSpider(BaseSpider):
 
         # # pprint(hxs.select("//div[@class='pd-content-medium-inner']").extract()[-5:-4])
         # f =  codecs.open("out.html","w",encoding="utf-8")
-        # item = hxs.select("/html/body/div[6]/div[4]/div/div/div/div/div/div[5]/div/div[2]/div").extract()
+        item = hxs.select("/html/body/div[6]/div[4]/div/div/div/div/div/div[5]/div/div[2]/div")
+        # print item
+        for idx, i in  enumerate(item.select(".//tr/td/text()").extract()):
+            print idx, cleanup(i)
         # f.write(item[0])
         # f.close()
 
         urls = [Request("%s%s" % (self.start_urls[0],i), self.parse_suburb) for i in string.uppercase]
-        print urls
-        return urls
+        # print urls
+        # return urls
 
     def parse_suburb(self,response):
         """ """
@@ -136,7 +148,7 @@ class RealestateViewSpider(BaseSpider):
         tbls = hxs.select("//div[@class='pd-table-inner']/table")
         for idx, tbl in enumerate(tbls):
             print suburbs[idx].split(" Sales ")[0]
-            lst = [i.replace('\n','').replace('\t','').replace(u'\xa0','').strip() for i in tbl.select(".//tr/td/text()").extract()]
+            lst = [cleanup(i) for i in tbl.select(".//tr/td/text()").extract()]
             for i in chunks(lst,7):
                 print i
         
