@@ -39,7 +39,7 @@ class RealestateAuctionItem(MongoItem):
     method = Field()
     sales_date = Field()
     agency = Field()
-
+    url = Field()
 
 
 

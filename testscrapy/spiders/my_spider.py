@@ -117,7 +117,7 @@ cleanup = lambda x: x.replace('\n','').replace('\t','').replace(u'\xa0','').stri
 class RealestateViewSpider(BaseSpider):
     name = "realestateView"
     allowed_domains = ['realestateview.com.au']
-    start_urls = ['http://www.realestateview.com.au/propertydata/auction-results/victoria/']
+    start_urls = [          'http://www.realestateview.com.au/propertydata/auction-results/nsw/']
     pipelines = set()
 
     def parse(self,response):
@@ -143,7 +143,7 @@ class RealestateViewSpider(BaseSpider):
     def parse_suburb(self,response):
         """ """
         print response.url
-
+        state = response.url.split("/")[-2]
         hxs = HtmlXPathSelector(response)
 
         title = hxs.select("//div[@class='pd-content-heading-inner']/h2/text()").extract()[0]
@@ -163,7 +163,7 @@ class RealestateViewSpider(BaseSpider):
             lst = [cleanup(i) for i in tbl.select(".//tr/td/text()").extract()]
             for i in chunks(lst,7):
                 item = RealestateAuctionItem()
-                item['state'] = 'VIC'
+                item['state'] = state
                 item['suburb'] = suburb
                 item['week_start'] = week_start
                 item['address'] = i[0]
@@ -175,5 +175,6 @@ class RealestateViewSpider(BaseSpider):
                 item['agency'] = i[6]
                 print item
                 ret.append(item)
-            print "---"
+
+            
         
