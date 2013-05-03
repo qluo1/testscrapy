@@ -26,11 +26,21 @@ class WantTimesItem(MongoItem):
     content = Field()
     timestamp = Field()
 
-class RealestateWeekSummaryItem(MongoItem):
+class RealestateAuctionItem(MongoItem):
     """ """
     state = Field()
     week_start = Field()
-    week_end = Field()
-    summary = Field()
+    suburb = Field()
+    # individual item
+    address = Field()
+    room = Field()
+    price = Field()
+    category = Field()
+    method = Field()
+    sales_date = Field()
+    agency = Field()
+
+
+
 
     

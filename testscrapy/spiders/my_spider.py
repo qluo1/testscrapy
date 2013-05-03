@@ -32,7 +32,7 @@ class TheAgeSpider(CrawlSpider):
         print hxs.select("//div[@class='articleBody']/p").extract()
 
 ########### Yahoo Finance News
-from testscrapy.items import YahooNewsItem , WantTimesItem
+from testscrapy.items import YahooNewsItem , WantTimesItem, RealestateAuctionItem
 
 class YahooFinSpider(BaseSpider):
     name = "yahoofin"
@@ -104,6 +104,8 @@ class WantTimesChinaSpider(BaseSpider):
         # print "%sT%s" % (extra[1],extra[2].replace("(",'').replace(")","")), item['timestamp'],item['timestamp'].astimezone(pytz.utc), item['timestamp'].tzinfo
         return item
 
+
+########## realestateView property data
 def chunks(l, n):
     """ Yield successive n-sized chunks from l.
     """
@@ -136,19 +138,42 @@ class RealestateViewSpider(BaseSpider):
 
         urls = [Request("%s%s" % (self.start_urls[0],i), self.parse_suburb) for i in string.uppercase]
         # print urls
-        # return urls
+        return urls
 
     def parse_suburb(self,response):
         """ """
         print response.url
 
         hxs = HtmlXPathSelector(response)
+
+        title = hxs.select("//div[@class='pd-content-heading-inner']/h2/text()").extract()[0]
+        _date = title.split("-")
+        print parser.parse(_date[1].strip()), parser.parse(_date[2].strip())
+        week_start, week_end = parser.parse(_date[1].strip()), parser.parse(_date[2].strip())
         suburbs = hxs.select("//div[@class='pd-content-heading-dark-inner']/h2/text()").extract()
         # pprint(suburbs)
         tbls = hxs.select("//div[@class='pd-table-inner']/table")
+        
+        ret = []
+
         for idx, tbl in enumerate(tbls):
-            print suburbs[idx].split(" Sales ")[0]
+            """ each suburb """
+            suburb = suburbs[idx].split(" Sales ")[0]
+            print suburb
             lst = [cleanup(i) for i in tbl.select(".//tr/td/text()").extract()]
             for i in chunks(lst,7):
-                print i
+                item = RealestateAuctionItem()
+                item['state'] = 'VIC'
+                item['suburb'] = suburb
+                item['week_start'] = week_start
+                item['address'] = i[0]
+                item['room'] = i[1]
+                item['price'] = i[2]
+                item['category'] = i[3]
+                item['method'] = i[4]
+                item['sales_date'] = parser.parse(i[5])
+                item['agency'] = i[6]
+                print item
+                ret.append(item)
+            print "---"
         

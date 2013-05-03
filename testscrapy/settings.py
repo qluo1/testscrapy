@@ -26,6 +26,7 @@ ITEM_PIPELINES = [
   'testscrapy.pipelines.WhooshIindexPipeline',
 ]
 
+# workaround linux defect on scrapyd
 EXTENSIONS = {
     'scrapy.contrib.feedexport.FeedExporter': None,
 }
