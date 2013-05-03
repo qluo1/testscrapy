@@ -117,7 +117,9 @@ cleanup = lambda x: x.replace('\n','').replace('\t','').replace(u'\xa0','').stri
 class RealestateViewSpider(BaseSpider):
     name = "realestateView"
     allowed_domains = ['realestateview.com.au']
-    start_urls = [          'http://www.realestateview.com.au/propertydata/auction-results/nsw/']
+    start_urls = [
+                'http://www.realestateview.com.au/propertydata/auction-results/victoria/',
+                'http://www.realestateview.com.au/propertydata/auction-results/nsw/']
     pipelines = set()
 
     def parse(self,response):
