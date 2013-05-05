@@ -119,8 +119,12 @@ class RealestateViewSpider(BaseSpider):
     allowed_domains = ['realestateview.com.au']
     start_urls = [
                 'http://www.realestateview.com.au/propertydata/auction-results/victoria/',
-                'http://www.realestateview.com.au/propertydata/auction-results/nsw/']
-    pipelines = set()
+                'http://www.realestateview.com.au/propertydata/auction-results/nsw/',
+                'http://www.realestateview.com.au/propertydata/auction-results/tasmania/',
+                'http://www.realestateview.com.au/propertydata/auction-results/south-australia/'
+                ]
+    pipelines = set(['mongo',])
+
 
     def parse(self,response):
         log.msg(response.url,level=log.INFO)
@@ -138,9 +142,12 @@ class RealestateViewSpider(BaseSpider):
         # f.write(item[0])
         # f.close()
 
-        urls = [Request("%s%s" % (self.start_urls[0],i), self.parse_suburb) for i in string.uppercase]
+        # urls = [Request("%s%s" % (self.start_urls[0],i), self.parse_suburb) for i in string.uppercase]
+        # return urls
         # print urls
-        return urls
+        for j in self.start_urls:
+            for i in string.uppercase:
+                yield Request("%s%s" % (j,i), self.parse_suburb)
 
     def parse_suburb(self,response):
         """ """
@@ -161,7 +168,7 @@ class RealestateViewSpider(BaseSpider):
         for idx, tbl in enumerate(tbls):
             """ each suburb """
             suburb = suburbs[idx].split(" Sales ")[0]
-            print suburb
+            
             lst = [cleanup(i) for i in tbl.select(".//tr/td/text()").extract()]
             for i in chunks(lst,7):
                 item = RealestateAuctionItem()
@@ -175,8 +182,13 @@ class RealestateViewSpider(BaseSpider):
                 item['method'] = i[4]
                 item['sales_date'] = parser.parse(i[5])
                 item['agency'] = i[6]
-                print item
+                # id
+                item['url'] = "%s-%s-%s-%s-%s-%s" % \
+                    (state,week_start.strftime("%Y%m%d"),suburb,item['address'],item['room'],item['price'])
+                # print item
+                log.msg(item['url'], level=log.INFO)
                 ret.append(item)
 
-            
+        return ret
+
         

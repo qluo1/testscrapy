@@ -42,6 +42,7 @@ MONGODB_SAFE = True
 MONGODB_COLLECTIONS = {
 	'yahoofin': 'items',
 	'wantTimes': 'wantTimes',
+  'realestateView':'propertyData'
 }
 
 # 

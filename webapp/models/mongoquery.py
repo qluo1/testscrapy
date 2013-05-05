@@ -9,6 +9,7 @@ from utils.timesince import timesince
 
 # mongo db
 client =  MongoClient('localhost', 27017)
+db = client.scrapy
 
 import default_cfg
 
@@ -42,6 +43,7 @@ def query_wantTimes(numOfDays=3):
                          date=timesince(i['timestamp']),url=i['url'],
                          oid=str(i['_id'])))
     return rets
+
 def query_news_by_oid(oid):
     i = None
     for key,val in default_cfg.MONGODB_COLLECTIONS.items():
@@ -58,6 +60,47 @@ def query_news_by_oid(oid):
 def query_items(items):
     """ """
     filter = {'url': {'$in': items}}
-    cur = client.scrapy.items.find(filter).sort([('timestamp',DESCENDING)])
+    cur = db.items.find(filter).sort([('timestamp',DESCENDING)])
     print cur.count()
     return [dict(title=i['title'],oid=str(i['_id']),date=timesince(i['timestamp'])) for i in cur]
+
+
+def query_property(state = None,suburb = None):
+    """ """
+    filter = {}
+    if state:
+        filter.update({'state':state})
+    if suburb:
+        filter.update({'suburb': suburb})
+
+    cur = db.propertyData.find(filter)
+    for i in cur:
+        print i['suburb'],i['address'],i['category'],i['price'],i['method'],i['week_start']
+
+
+from bson.code import Code
+def query_state_suburb(state='victoria'):
+    """ """
+
+    maper = Code(""" 
+        function() {
+                emit(this.suburb, 1);
+        }
+    """)
+    
+    reducer = Code(""" 
+        function(key,values) {
+            var count = 0;
+            for (var i = 0; i < values.length; i++) {
+                count += values[i];
+            }
+            return count;
+        }
+        """)
+
+    filter = {'state':state}
+    result = db.propertyData.map_reduce(maper,reducer,"myresults",query=filter)
+    
+    return [i['_id'] for i in result.find()]
+
+    
