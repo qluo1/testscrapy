@@ -7,6 +7,8 @@ from dateutil import parser
 from random import randint
 from scrapy import log
 from scrapy.conf import settings
+# from crawler.settings import settings
+from scrapy.crawler.Crawler import settings
 from scrapy.http import Request
 ##
 from pprint import pprint

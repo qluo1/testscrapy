@@ -103,4 +103,21 @@ def query_state_suburb(state='victoria'):
     
     return [i['_id'] for i in result.find()]
 
-    
+def auction_summary(state='victoria'):
+    """ """
+    maper = Code("""
+        function() {
+            emit(this.method,1);
+        }
+        """)
+
+    reducer = Code("""
+        function(key,values) {
+            return Array.sum(values);
+        }
+        """)
+
+    filter = {'state': state}
+    result = db.propertyData.map_reduce(maper,reducer,"myresults",query=filter)
+    return {i['_id']: i['value'] for i in result.find()}
+        
