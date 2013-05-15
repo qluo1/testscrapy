@@ -79,7 +79,7 @@ def query_property(state = None,suburb = None):
 
 
 from bson.code import Code
-def query_state_suburb(state='victoria'):
+def query_state_suburb(date,state='victoria'):
     """ """
 
     maper = Code(""" 
@@ -98,9 +98,31 @@ def query_state_suburb(state='victoria'):
         }
         """)
 
-    filter = {'state':state}
+    filter = {'state':state,'week_start': dt.strptime(date,'%Y%m%d')}
     result = db.propertyData.map_reduce(maper,reducer,"myresults",query=filter)
     
     return [i['_id'] for i in result.find()]
 
+def query_summary(date,state='victoria'):
+    """ """
+
+    maper = Code(""" 
+        function() {
+                emit(this.method, 1);
+        }
+    """)
     
+    reducer = Code(""" 
+        function(key,values) {
+            var count = 0;
+            for (var i = 0; i < values.length; i++) {
+                count += values[i];
+            }
+            return count;
+        }
+        """)
+
+    filter = {'state':state,'week_start': dt.strptime(date,'%Y%m%d')}
+    result = db.propertyData.map_reduce(maper,reducer,"myresults",query=filter)
+    
+    return [{i['_id']: i['value']} for i in result.find()]

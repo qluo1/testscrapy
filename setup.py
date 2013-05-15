@@ -13,7 +13,7 @@ import testscrapy
 
 me = 'Samuel Luo'
 memail = 'qi.dataintelligence@gmail.com'
-packages = ['testscrapy','testscrapy.spiders']
+packages = ['testscrapy','testscrapy.spiders','searchable']
 setup (
     name='testscrapy',
     version=testscrapy.VERSION,
