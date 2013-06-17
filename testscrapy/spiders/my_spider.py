@@ -54,7 +54,9 @@ class YahooFinSpider(BaseSpider):
 
         browser.get(response.url)
         for i in range(0,3):
-            browser.find_element_by_xpath("//a[@class='more-link']").click()
+            #browser.find_element_by_xpath("//a[@class='rapid-nf more-link']").click()
+            browser.find_element_by_xpath("//a[contains(@class,'more-link')]").click()
+            
             time.sleep(3)
         hxs = HtmlXPathSelector(text=browser.page_source)
         links = hxs.select("//a/@href").extract()
