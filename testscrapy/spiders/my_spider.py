@@ -6,9 +6,7 @@ from datetime import datetime as dt, timedelta
 from dateutil import parser
 from random import randint
 from scrapy import log
-from scrapy.conf import settings
-# from crawler.settings import settings
-from scrapy.crawler.Crawler import settings
+# from scrapy.conf import settings
 from scrapy.http import Request
 ##
 from pprint import pprint
@@ -46,7 +44,7 @@ class YahooFinSpider(BaseSpider):
 
     def parse(self,response):
         print response.url
-        if settings['LOCAL_ENV'] == 'HOME':
+        if self.settings['LOCAL_ENV'] == 'HOME':
             from pyvirtualdisplay import Display
             display = Display(visible=0, size=(800, 600))
             display.start()
