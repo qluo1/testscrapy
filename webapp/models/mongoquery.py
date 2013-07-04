@@ -103,6 +103,25 @@ def query_state_suburb(date,state='victoria'):
     
     return [i['_id'] for i in result.find()]
 
+
+def auction_summary(date,state='victoria'):
+    """ """
+    maper = Code("""
+        function() {
+            emit(this.method,1);
+        }
+        """)
+
+    reducer = Code("""
+        function(key,values) {
+            return Array.sum(values);
+        }
+        """)
+
+    filter = {'state': state,'week_start': dt.strptime(date,'%Y%m%d')}
+    result = db.propertyData.map_reduce(maper,reducer,"myresults",query=filter)
+    return {i['_id']: i['value'] for i in result.find()}
+        
 def query_summary(date,state='victoria'):
     """ """
 
